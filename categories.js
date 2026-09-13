@@ -23,5 +23,9 @@ window.CATEGORIES = [
   { id: 'menstrual', en: 'Menstrual & Intimate Care',     es: 'Cuidado menstrual e íntimo',       icon: 'cat-menstrual.png', photo: 'menstrual.jpg' },
   { id: 'ritual',    en: 'Home, Ritual & Wellbeing',      es: 'Hogar, ritual y bienestar',        icon: 'cat-ritual.png',    photo: 'ritual.jpg' },
   { id: 'living',    en: 'Home & Living',                 es: 'Hogar y decoración',               icon: 'cat-living.png',    photo: 'living.jpg' },
-  { id: 'kids',      en: 'Kids & Family',                 es: 'Niños y familia',                  icon: 'cat-kids.png',      photo: 'kids.jpg' }
+  { id: 'kids',      en: 'Kids & Family',                 es: 'Niños y familia',                  icon: 'cat-kids.png',      photo: 'kids.jpg' },
+  /* Sport & Outdoor has no line icon yet, so it points at the browse icon as a
+     safe fallback. Drop a cat-sport.png in and change the icon line when one
+     arrives. */
+  { id: 'sport',     en: 'Sport & Outdoor',               es: 'Deporte y aire libre',             icon: 'browse.png',        photo: 'sport.jpg' }
 ];

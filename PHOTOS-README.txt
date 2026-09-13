@@ -13,11 +13,12 @@ One file per category, named after its id:
   ritual.jpg      Home, Ritual & Wellbeing
   living.jpg      Home & Living
   kids.jpg        Kids & Family
+  sport.jpg       Sport & Outdoor
 
 .png works too, using the same name. Replacing a photo means overwriting the
 file. A category with no file here shows its line icon instead, so photos can
 be swapped one at a time and a new category never needs one to work.
 
 Send new photos landscape, at least 1200 pixels wide, with the subject in the
-middle band, and keep the light and background consistent across all seven so
-the grid reads as one set.
+middle band, and keep the light and background consistent across the whole set
+so the grid reads as one.
