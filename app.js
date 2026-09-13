@@ -210,7 +210,7 @@ function brandBySlug(slug) {
 }
 function categoryIconFor(brand) {
   var c = categoryById(brand.categories[0]);
-  return c ? c.icon : 'assets/icons/browse.png';
+  return c ? c.icon : 'browse.png';
 }
 /* Category tile. Shows the photo named in data/categories.js when that file
    exists, and falls back to the line icon when it does not, so photos can be
@@ -344,7 +344,7 @@ function searchFormHTML(opts) {
       '<div class="field">' +
         '<label for="q">' + esc(s.whatLabel) + '</label>' +
         '<div class="input-wrap">' +
-          '<img class="lead-icon" src="assets/icons/browse.png" alt="">' +
+          '<img class="lead-icon" src="browse.png" alt="">' +
           '<input type="text" id="q" class="with-icon" autocomplete="off" ' +
                  'placeholder="' + esc(s.whatPh) + '" value="' + esc(state.productText) + '">' +
         '</div>' +
@@ -356,13 +356,13 @@ function searchFormHTML(opts) {
     '<div class="field">' +
       '<label for="loc">' + esc(s.whereLabel) + '</label>' +
       '<div class="input-wrap">' +
-        '<img class="lead-icon" src="assets/icons/location.png" alt="">' +
+        '<img class="lead-icon" src="location.png" alt="">' +
         '<input type="text" id="loc" class="with-icon" autocomplete="off" ' +
                'placeholder="' + esc(s.wherePh) + '" value="' + esc(state.placeText) + '">' +
       '</div>' +
       '<div id="acPlace"></div>' +
       '<button type="button" class="geo-btn" id="geoBtn">' +
-        '<img src="assets/icons/location.png" alt="">' + esc(s.useLocation) +
+        '<img src="location.png" alt="">' + esc(s.useLocation) +
       '</button>' +
       '<p class="geo-msg" id="geoMsg">' + esc(state.geoMsg || s.locNote) + '</p>' +
     '</div>';
@@ -378,7 +378,7 @@ function searchFormHTML(opts) {
     '<div class="field">' +
       '<div class="toggle-row' + (state.shipping ? ' on' : '') + '" id="shipToggle" role="switch" ' +
            'aria-checked="' + (state.shipping ? 'true' : 'false') + '" tabindex="0">' +
-        '<img src="assets/icons/shipping.png" alt="">' +
+        '<img src="shipping.png" alt="">' +
         '<span class="t-text"><b>' + esc(s.shipTitle) + '</b><span>' + esc(s.shipSub) + '</span></span>' +
         '<span class="switch"></span>' +
       '</div>' +
@@ -392,7 +392,7 @@ function viewHome() {
   var s = t();
   var html =
     '<p class="page-sub" style="margin-top:2px">' + esc(s.tagline) + '</p>' +
-    '<div class="hero-photo"><img src="assets/hero.jpg" alt=""></div>' +
+    '<div class="hero-photo"><img src="hero.jpg" alt=""></div>' +
     '<div class="demo-note">' + esc(s.demoNote) + '</div>' +
     searchFormHTML({}) +
     '<div class="section-label">' + esc(s.browseTitle) + '</div>' +
@@ -403,7 +403,7 @@ function viewHome() {
     '<button type="button" class="btn btn-quiet btn-chev" style="margin-top:13px" data-go="#/browse">' +
       esc(s.browseAll) + chevronHTML('btn-chev-icon') + '</button>' +
     '<div class="teaser" data-go="#/mission">' +
-      '<img src="assets/icons/mission.png" alt="">' +
+      '<img src="mission.png" alt="">' +
       '<span><b>' + esc(s.missionTeaser) + '</b><span>' + esc(s.missionLink) + '</span></span>' +
     '</div>' +
     footerHTML();
@@ -828,10 +828,10 @@ function paintLang() {
 }
 
 var TABS = [
-  { hash: '#/',        icon: 'assets/icons/home.png',     key: 'tabHome' },
-  { hash: '#/browse',  icon: 'assets/icons/browse.png',   key: 'tabBrowse' },
-  { hash: '#/nearby',  icon: 'assets/icons/location.png', key: 'tabNear' },
-  { hash: '#/mission', icon: 'assets/icons/mission.png',  key: 'tabMission' }
+  { hash: '#/',        icon: 'home.png',     key: 'tabHome' },
+  { hash: '#/browse',  icon: 'browse.png',   key: 'tabBrowse' },
+  { hash: '#/nearby',  icon: 'location.png', key: 'tabNear' },
+  { hash: '#/mission', icon: 'mission.png',  key: 'tabMission' }
 ];
 
 function paintTabs() {
