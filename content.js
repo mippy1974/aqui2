@@ -1,4 +1,4 @@
-/* aquí - editable page content: Mission, Privacy Policy, Terms of Use.
+/* aquí - editable page content: Mission, For brands, Privacy Policy, Terms of Use.
 
    Everything in this file is plain text. Edit it here and the pages update.
    In the full app this same content moves into the admin area so it can be
@@ -54,6 +54,50 @@ window.CONTENT = {
         { h: 'No vendemos nada', p: [
           'aquí no es una tienda. No hay carrito, ni pago, ni comisión, ni servicio de entrega. Nadie paga por aparecer y nada se ordena según quién paga.',
           'Cuando encuentras algo que quieres, lo compras directamente a la marca, en sus propios términos.'
+        ]}
+      ]
+    }
+  },
+
+  /* For brands page (added 24 Sep 2026). formUrl opens Nadine's Jotform
+     profile form in the phone's browser. One link serves both languages until
+     a Spanish form link is added under formUrlEs. */
+  brands: {
+    formUrl: 'https://form.jotform.com/262514303259049',
+    formUrlEs: '',
+    en: {
+      title: 'For brands',
+      updated: '',
+      lead: 'aquí gives your brand a place where people can discover what you make, read your story and find out where to get it.',
+      sections: [
+        { h: 'Who it is for', p: [
+          'Natural products, handmade goods and things produced locally in Panama. Skincare, herbs and teas, food and drinks, objects for the home, care for the whole family.',
+          'Every brand is reviewed by hand before it appears. Being made in Panama is the start, not the whole test: what matters is that someone is making something real, with care.'
+        ]},
+        { h: 'How it works', p: [
+          'Fill in the brand form. It asks for your story, the products you make, where people can buy them, whether you ship, your links, a logo and a few photos.',
+          'We review what you send, build your profile, and you approve it before it goes live. Once you are on aquí, people who search for your products or look around your area will find you and go straight to you.'
+        ]},
+        { h: 'What it costs', p: [
+          'aquí is not a shop. There is no commission and nothing is sold through the app. The conditions for founding brands are explained in the form.'
+        ]}
+      ]
+    },
+    es: {
+      title: 'Para marcas',
+      updated: '',
+      lead: 'aquí le da a tu marca un lugar donde las personas pueden descubrir lo que haces, leer tu historia y saber dónde conseguirlo.',
+      sections: [
+        { h: 'Para quién es', p: [
+          'Productos naturales, hechos a mano y producidos localmente en Panamá. Cuidado de la piel, hierbas y tés, alimentos y bebidas, objetos para el hogar, cuidado para toda la familia.',
+          'Cada marca se revisa a mano antes de aparecer. Estar hecho en Panamá es el inicio, no toda la prueba: lo que importa es que alguien esté haciendo algo de verdad, con cuidado.'
+        ]},
+        { h: 'Cómo funciona', p: [
+          'Llena el formulario para marcas. Pide tu historia, los productos que haces, dónde se pueden comprar, si haces envíos, tus enlaces, un logo y algunas fotos.',
+          'Revisamos lo que envías, armamos tu perfil, y tú lo apruebas antes de publicarlo. Una vez en aquí, las personas que buscan tus productos o miran qué hay en tu zona te encontrarán y llegarán directo a ti.'
+        ]},
+        { h: 'Cuánto cuesta', p: [
+          'aquí no es una tienda. No hay comisión y nada se vende a través de la app. Las condiciones para las marcas fundadoras se explican en el formulario.'
         ]}
       ]
     }

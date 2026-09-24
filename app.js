@@ -5,7 +5,8 @@
      1. STRINGS      every piece of interface text, in both languages
      2. state        what the user has chosen
      3. search()     the one function that decides which brands match
-     4. views        one render function per screen
+     4. views        one render function per screen (home, browse, nearby,
+                     results, brand, mission, for brands, legal)
      5. router       maps the address bar hash to a view
 */
 
@@ -73,7 +74,16 @@ var STRINGS = {
     tabMission: 'Mission',
     nearTitle: 'What is nearby',
     nearSub: 'Pick a place and see everything available there. No product needed.',
-    demoNote: 'Demo version. Brands and products shown here are invented placeholders, used to show how the app works.',
+    demoNote: 'Demo version. Brands marked "Example brand" are invented placeholders that show how the app works. Brands without that mark are real.',
+    exampleTag: 'Example brand',
+    forBrands: 'For brands',
+    brandsFormBtn: 'Open the brand form',
+    brandsFormNote: 'Opens outside aquí, in your browser.',
+    brandsTeaserTitle: 'Do you make something in Panama?',
+    brandsTeaserSub: 'See how a brand joins aquí',
+    waIntro: function (name) { return 'Hi, I found ' + name + ' on aquí.'; },
+    photoOf: function (name, n) { return name + ', photo ' + n; },
+    closePhoto: 'Close',
     inCategory: 'In this category',
     alsoIn: 'also',
     anyProduct: 'Any product',
@@ -136,7 +146,16 @@ var STRINGS = {
     tabMission: 'Misión',
     nearTitle: 'Qué hay cerca',
     nearSub: 'Elige un lugar y mira todo lo disponible ahí. No hace falta un producto.',
-    demoNote: 'Versión demo. Las marcas y productos que se muestran son inventados, para mostrar cómo funciona la app.',
+    demoNote: 'Versión demo. Las marcas con la etiqueta "Marca de ejemplo" son inventadas, para mostrar cómo funciona la app. Las marcas sin esa etiqueta son reales.',
+    exampleTag: 'Marca de ejemplo',
+    forBrands: 'Para marcas',
+    brandsFormBtn: 'Abrir el formulario para marcas',
+    brandsFormNote: 'Se abre fuera de aquí, en tu navegador.',
+    brandsTeaserTitle: '¿Haces algo en Panamá?',
+    brandsTeaserSub: 'Mira cómo una marca entra en aquí',
+    waIntro: function (name) { return 'Hola, encontré ' + name + ' en aquí.'; },
+    photoOf: function (name, n) { return name + ', foto ' + n; },
+    closePhoto: 'Cerrar',
     inCategory: 'En esta categoría',
     alsoIn: 'también',
     anyProduct: 'Cualquier producto',
@@ -261,6 +280,44 @@ function tintFor(slug) {
   for (var i = 0; i < slug.length; i++) n = (n * 31 + slug.charCodeAt(i)) % 997;
   return TINTS[n % TINTS.length];
 }
+/* Result card thumbnail and profile hero. A brand with a photo shows it; a
+   brand without one keeps the tinted tile and category icon. */
+function brandThumbHTML(b) {
+  if (b.photo) {
+    return '<div class="thumb has-photo"><img src="' + esc(b.photo) + '" alt=""></div>';
+  }
+  return '<div class="thumb" style="background:' + tintFor(b.slug) + '">' +
+           '<img src="' + esc(categoryIconFor(b)) + '" alt=""></div>';
+}
+function brandHeroHTML(b) {
+  if (b.photo) {
+    return '<div class="hero has-photo"><img src="' + esc(b.photo) + '" alt=""></div>';
+  }
+  return '<div class="hero" style="background:' + tintFor(b.slug) + '">' +
+           '<img src="' + esc(categoryIconFor(b)) + '" alt=""></div>';
+}
+function exampleTagHTML(b) {
+  return b.demo ? '<span class="tag example">' + esc(t().exampleTag) + '</span>' : '';
+}
+/* Full screen photo. One overlay, tap anywhere or press Escape to close. */
+function openPhoto(src, label) {
+  closePhoto();
+  var box = document.createElement('div');
+  box.className = 'lightbox';
+  box.id = 'lightbox';
+  box.innerHTML = '<button type="button" class="lb-close" aria-label="' + esc(t().closePhoto) + '">×</button>' +
+                  '<img src="' + esc(src) + '" alt="' + esc(label || '') + '">';
+  box.onclick = closePhoto;
+  document.body.appendChild(box);
+  document.addEventListener('keydown', escClose);
+}
+function closePhoto() {
+  var box = el('lightbox');
+  if (box && box.parentNode) box.parentNode.removeChild(box);
+  document.removeEventListener('keydown', escClose);
+}
+function escClose(e) { if (e.key === 'Escape') closePhoto(); }
+
 /* straight line distance in km */
 function distance(a, b) {
   var R = 6371, toRad = Math.PI / 180;
@@ -438,8 +495,9 @@ function viewBrowse() {
   wireCatPhotos();
 }
 
-function resultTagsHTML(row) {
+function resultTagsHTML(row, b) {
   var s = t(), tags = '';
+  if (b) tags += exampleTagHTML(b);
   if (row.nearest) {
     var d = row.nearest.d;
     var label = d < 1.5 ? s.inTown : (Math.round(d) + ' ' + s.km);
@@ -487,12 +545,11 @@ function viewResults() {
       var b = row.brand;
       html +=
         '<div class="card" data-brand="' + esc(b.slug) + '">' +
-          '<div class="thumb" style="background:' + tintFor(b.slug) + '">' +
-            '<img src="' + esc(categoryIconFor(b)) + '" alt=""></div>' +
+          brandThumbHTML(b) +
           '<div class="card-body">' +
             '<h3>' + esc(b.name) + '</h3>' +
             '<p>' + esc(nameOf(b.tagline)) + '</p>' +
-            resultTagsHTML(row) +
+            resultTagsHTML(row, b) +
           '</div>' +
         '</div>';
     });
@@ -543,8 +600,35 @@ function viewBrand(slug) {
   var posHTML = b.pos.map(function (p) {
     var town = state.lang === 'es' ? p.townEs : p.town;
     return '<div class="pos-item">' + esc(p.name) +
+           (p.address ? '<span>' + esc(p.address) + '</span>' : '') +
            '<span>' + esc(town) + ', ' + esc(p.province) + '</span></div>';
   }).join('');
+
+  /* About text: a blank line in the data starts a new paragraph. */
+  var aboutHTML = String(nameOf(b.about)).split(/\n\s*\n/).map(function (para) {
+    return '<p>' + esc(para) + '</p>';
+  }).join('');
+
+  /* Photo strip. Tap a photo to see it full screen. */
+  var galleryHTML = '';
+  if (b.photos && b.photos.length) {
+    galleryHTML = '<div class="gallery">' + b.photos.map(function (src, i) {
+      return '<button type="button" class="g-item" data-photo="' + esc(src) +
+             '" aria-label="' + esc(s.photoOf(b.name, i + 1)) + '">' +
+             '<img src="' + esc(src) + '" alt="" loading="lazy"></button>';
+    }).join('') + '</div>';
+  }
+
+  var headHTML = b.logo
+    ? '<div class="brand-head">' +
+        '<div class="brand-logo"><img src="' + esc(b.logo) + '" alt=""></div>' +
+        '<div class="brand-head-text">' +
+          '<h1 class="brand-name">' + esc(b.name) + '</h1>' +
+          '<p class="brand-tag">' + esc(nameOf(b.tagline)) + '</p>' +
+        '</div>' +
+      '</div>'
+    : '<h1 class="brand-name">' + esc(b.name) + '</h1>' +
+      '<p class="brand-tag">' + esc(nameOf(b.tagline)) + '</p>';
 
   var shipText = b.shipping.type === 'nationwide' ? s.shipNationwide
                : b.shipping.type === 'none' ? s.shipNone
@@ -560,7 +644,10 @@ function viewBrand(slug) {
              '<span>' + esc(s.instagram) + '</span><em>@' + esc(b.links.instagram) + '</em></a>';
   }
   if (b.links.whatsapp) {
+    /* The chat opens with a short greeting already typed, so the brand can see
+       the contact came through aquí. The person can edit or delete it. */
     links += '<a class="link-btn" href="https://wa.me/' + esc(b.links.whatsapp.replace(/[^0-9]/g, '')) +
+             '?text=' + encodeURIComponent(s.waIntro(b.name)) +
              '" target="_blank" rel="noopener">' +
              '<span>' + esc(s.whatsapp) + '</span><em>' + esc(b.links.whatsapp) + '</em></a>';
   }
@@ -569,13 +656,12 @@ function viewBrand(slug) {
 
   render(
     '<button type="button" class="back" data-back="1">‹ ' + esc(s.back) + '</button>' +
-    '<div class="hero" style="background:' + tintFor(b.slug) + '">' +
-      '<img src="' + esc(categoryIconFor(b)) + '" alt=""></div>' +
-    '<h1 class="brand-name">' + esc(b.name) + '</h1>' +
-    '<p class="brand-tag">' + esc(nameOf(b.tagline)) + '</p>' +
-    '<div class="pill-list">' + cats + '</div>' +
+    brandHeroHTML(b) +
+    headHTML +
+    '<div class="pill-list">' + cats + exampleTagHTML(b) + '</div>' +
+    galleryHTML +
     '<div class="kv" style="border-top:0;padding-top:16px">' +
-      '<b>' + esc(s.about) + '</b><div class="about">' + esc(nameOf(b.about)) + '</div>' +
+      '<b>' + esc(s.about) + '</b><div class="about">' + aboutHTML + '</div>' +
     '</div>' +
     '<div class="kv"><b>' + esc(s.basedIn) + '</b>' +
       '<div class="val">' + esc(baseTown) + ', ' + esc(b.base.province) + '</div></div>' +
@@ -587,6 +673,9 @@ function viewBrand(slug) {
   );
 
   each('[data-back]', function (n) { n.onclick = function () { history.back(); }; });
+  each('[data-photo]', function (n) {
+    n.onclick = function () { openPhoto(n.getAttribute('data-photo'), n.getAttribute('aria-label')); };
+  });
 }
 
 function docPageHTML(doc) {
@@ -603,10 +692,32 @@ function docPageHTML(doc) {
 }
 
 function viewMission() {
+  var s = t();
   var doc = CONTENT.mission[state.lang];
   render(
     '<h1 class="page-title">' + esc(doc.title) + '</h1>' +
-    docPageHTML(doc) + footerHTML()
+    docPageHTML(doc) +
+    '<div class="teaser" data-go="#/brands">' +
+      '<img src="mission.png" alt="">' +
+      '<span><b>' + esc(s.brandsTeaserTitle) + '</b><span>' + esc(s.brandsTeaserSub) + '</span></span>' +
+    '</div>' +
+    footerHTML()
+  );
+}
+
+/* For brands: what aquí offers a brand and the link to the profile form.
+   The form is a Jotform page and opens outside the app. */
+function viewForBrands() {
+  var s = t();
+  var doc = CONTENT.brands[state.lang];
+  var url = (state.lang === 'es' && CONTENT.brands.formUrlEs) ? CONTENT.brands.formUrlEs : CONTENT.brands.formUrl;
+  render(
+    '<h1 class="page-title">' + esc(doc.title) + '</h1>' +
+    docPageHTML(doc) +
+    '<a class="btn btn-link" href="' + esc(url) + '" target="_blank" rel="noopener">' +
+      esc(s.brandsFormBtn) + '</a>' +
+    '<p class="hint" style="text-align:center">' + esc(s.brandsFormNote) + '</p>' +
+    footerHTML()
   );
 }
 
@@ -639,6 +750,7 @@ function footerHTML() {
   var s = t();
   return '<div class="mini-foot">' +
     '<a href="#/mission">' + esc(s.tabMission) + '</a>' +
+    '<a href="#/brands">' + esc(s.forBrands) + '</a>' +
     '<a href="#/legal/privacy">' + esc(s.privacyName) + '</a>' +
     '<a href="#/legal/terms">' + esc(s.termsName) + '</a>' +
   '</div>';
@@ -854,6 +966,7 @@ function paintTabs() {
  * ------------------------------------------------------------------ */
 function route() {
   var h = location.hash || '#/';
+  closePhoto();
   paintTabs();
 
   if (h.indexOf('#/brand/') === 0) return viewBrand(h.slice('#/brand/'.length));
@@ -861,6 +974,7 @@ function route() {
   if (h === '#/browse') return viewBrowse();
   if (h === '#/nearby') return viewNearby();
   if (h === '#/mission') return viewMission();
+  if (h === '#/brands') return viewForBrands();
   if (h === '#/legal') return viewLegalIndex();
   if (h === '#/legal/privacy') return viewLegalDoc('privacy');
   if (h === '#/legal/terms') return viewLegalDoc('terms');

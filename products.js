@@ -48,10 +48,16 @@ window.PRODUCTS = [
   { id: 'macrame',           en: 'Macramé Wall Hanging',    es: 'Macramé de pared' },
   { id: 'basket',            en: 'Woven Basket',            es: 'Canasta tejida' },
   { id: 'ceramic-mug',       en: 'Ceramic Mug',             es: 'Taza de cerámica' },
-  { id: 'cutting-board',     en: 'Wooden Cutting Board',    es: 'Tabla de madera' },
+  { id: 'cutting-board',     en: 'Wooden Cutting Board',    es: 'Tabla de picar de madera' },
   { id: 'cotton-throw',      en: 'Cotton Throw',            es: 'Manta de algodón' },
   { id: 'baby-balm',         en: 'Baby Balm',               es: 'Bálsamo para bebé' },
   { id: 'kids-clothing',     en: 'Kids Clothing',           es: 'Ropa para niños' },
   { id: 'cloth-diapers',     en: 'Cloth Diapers',           es: 'Pañales de tela' },
-  { id: 'wooden-toy',        en: 'Wooden Toy',              es: 'Juguete de madera' }
+  { id: 'wooden-toy',        en: 'Wooden Toy',              es: 'Juguete de madera' },
+  /* added 24 Sep 2026 with the first real brand, Castel Woodshop */
+  { id: 'serving-tray',      en: 'Carved Serving Tray',     es: 'Bandeja tallada' },
+  { id: 'beer-carrier',      en: 'Beer Carrier',            es: 'Portacervezas' },
+  { id: 'liquor-dispenser',  en: 'Liquor Dispenser',        es: 'Dispensador de licor' },
+  { id: 'wine-rack',         en: 'Wine Rack',               es: 'Vinera' },
+  { id: 'custom-wood',       en: 'Custom Wood Pieces',      es: 'Piezas de madera a medida' }
 ];

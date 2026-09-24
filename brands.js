@@ -13,8 +13,18 @@
      shipping    { type: 'nationwide' | 'provinces' | 'none', provinces: [...] }
      links       website, instagram, whatsapp
 
-   Photos: this demo uses generated tiles instead of stock images, so nothing
-   here claims to be a real brand. Swap `photo` in for a real path later. */
+     demo        true on the invented placeholder brands. They show a small
+                 "Example brand" tag in the app. Real brands have no demo flag.
+     photo       cover image file (3:2 works best). Shown on the result card and
+                 at the top of the profile. Leave it out and the brand gets a
+                 tinted tile with its category icon, as before.
+     photos      gallery files, shown as a scroll strip on the profile
+     logo        square logo tile shown beside the brand name on the profile
+     pos.address optional street line under a point of sale
+
+   The invented brands use generated tiles instead of photos, so nothing there
+   claims to be real. Castel Woodshop (24 Sep 2026) is the first real brand:
+   text and photos come from the brand's own profile form. */
 
 window.BRANDS = [
   {
@@ -33,7 +43,8 @@ window.BRANDS = [
     ],
     shipping: { type: "provinces", provinces: ["Panamá", "Panamá Oeste", "Coclé"] },
     links: { website: "fermentosdelistmo.com", instagram: "fermentosdelistmo", whatsapp: "+507 6100 0101" },
-    published: true
+    published: true,
+    demo: true
   },
   {
     slug: "fermentos-azuero",
@@ -50,7 +61,8 @@ window.BRANDS = [
     ],
     shipping: { type: "provinces", provinces: ["Herrera", "Los Santos", "Coclé", "Veraguas"] },
     links: { website: "", instagram: "fermentosazuero", whatsapp: "+507 6100 0102" },
-    published: true
+    published: true,
+    demo: true
   },
   {
     slug: "kimchi-volcan",
@@ -68,7 +80,8 @@ window.BRANDS = [
     ],
     shipping: { type: "provinces", provinces: ["Chiriquí"] },
     links: { website: "", instagram: "kimchivolcan", whatsapp: "+507 6100 0103" },
-    published: true
+    published: true,
+    demo: true
   },
   {
     slug: "masa-madre-boquete",
@@ -85,7 +98,8 @@ window.BRANDS = [
     ],
     shipping: { type: "none", provinces: [] },
     links: { website: "", instagram: "masamadreboquete", whatsapp: "+507 6100 0104" },
-    published: true
+    published: true,
+    demo: true
   },
   {
     slug: "cacao-portobelo",
@@ -103,7 +117,8 @@ window.BRANDS = [
     ],
     shipping: { type: "nationwide", provinces: [] },
     links: { website: "cacaoportobelo.com", instagram: "cacaoportobelo", whatsapp: "+507 6100 0105" },
-    published: true
+    published: true,
+    demo: true
   },
   {
     slug: "miel-de-azuero",
@@ -121,7 +136,8 @@ window.BRANDS = [
     ],
     shipping: { type: "provinces", provinces: ["Los Santos", "Herrera", "Panamá"] },
     links: { website: "", instagram: "mieldeazuero", whatsapp: "+507 6100 0106" },
-    published: true
+    published: true,
+    demo: true
   },
   {
     slug: "cafe-alto-quiel",
@@ -139,7 +155,8 @@ window.BRANDS = [
     ],
     shipping: { type: "nationwide", provinces: [] },
     links: { website: "altoquiel.com", instagram: "cafealtoquiel", whatsapp: "+507 6100 0107" },
-    published: true
+    published: true,
+    demo: true
   },
   {
     slug: "kombucha-tropical",
@@ -158,7 +175,8 @@ window.BRANDS = [
     ],
     shipping: { type: "provinces", provinces: ["Panamá", "Panamá Oeste"] },
     links: { website: "", instagram: "kombuchatropicalpa", whatsapp: "+507 6100 0108" },
-    published: true
+    published: true,
+    demo: true
   },
   {
     slug: "nueces-del-pacifico",
@@ -176,7 +194,8 @@ window.BRANDS = [
     ],
     shipping: { type: "nationwide", provinces: [] },
     links: { website: "", instagram: "nuecesdelpacifico", whatsapp: "+507 6100 0109" },
-    published: true
+    published: true,
+    demo: true
   },
   {
     slug: "salsa-islena",
@@ -193,7 +212,8 @@ window.BRANDS = [
     ],
     shipping: { type: "provinces", provinces: ["Bocas del Toro", "Chiriquí"] },
     links: { website: "", instagram: "salsaislena", whatsapp: "+507 6100 0110" },
-    published: true
+    published: true,
+    demo: true
   },
   {
     slug: "jardin-de-santa-fe",
@@ -210,7 +230,8 @@ window.BRANDS = [
     ],
     shipping: { type: "provinces", provinces: ["Veraguas", "Herrera", "Coclé"] },
     links: { website: "", instagram: "jardindesantafe", whatsapp: "+507 6100 0111" },
-    published: true
+    published: true,
+    demo: true
   },
   {
     slug: "hierbas-cerro-punta",
@@ -228,7 +249,8 @@ window.BRANDS = [
     ],
     shipping: { type: "nationwide", provinces: [] },
     links: { website: "hierbascerropunta.com", instagram: "hierbascerropunta", whatsapp: "+507 6100 0112" },
-    published: true
+    published: true,
+    demo: true
   },
   {
     slug: "botica-verde",
@@ -245,7 +267,8 @@ window.BRANDS = [
     ],
     shipping: { type: "nationwide", provinces: [] },
     links: { website: "boticaverde.com", instagram: "boticaverdepa", whatsapp: "+507 6100 0113" },
-    published: true
+    published: true,
+    demo: true
   },
   {
     slug: "selva-botanica",
@@ -263,7 +286,8 @@ window.BRANDS = [
     ],
     shipping: { type: "nationwide", provinces: [] },
     links: { website: "selvabotanica.com", instagram: "selvabotanica", whatsapp: "+507 6100 0114" },
-    published: true
+    published: true,
+    demo: true
   },
   {
     slug: "jaboneria-istmo",
@@ -281,7 +305,8 @@ window.BRANDS = [
     ],
     shipping: { type: "nationwide", provinces: [] },
     links: { website: "", instagram: "jaboneriaistmo", whatsapp: "+507 6100 0115" },
-    published: true
+    published: true,
+    demo: true
   },
   {
     slug: "coco-y-cera",
@@ -298,7 +323,8 @@ window.BRANDS = [
     ],
     shipping: { type: "provinces", provinces: ["Bocas del Toro", "Chiriquí", "Panamá"] },
     links: { website: "cocoycera.com", instagram: "cocoycera", whatsapp: "+507 6100 0116" },
-    published: true
+    published: true,
+    demo: true
   },
   {
     slug: "raiz-natural",
@@ -316,7 +342,8 @@ window.BRANDS = [
     ],
     shipping: { type: "provinces", provinces: ["Chiriquí", "Bocas del Toro"] },
     links: { website: "", instagram: "raiznaturalpa", whatsapp: "+507 6100 0117" },
-    published: true
+    published: true,
+    demo: true
   },
   {
     slug: "luna-roja",
@@ -333,7 +360,8 @@ window.BRANDS = [
     ],
     shipping: { type: "nationwide", provinces: [] },
     links: { website: "lunaroja.com.pa", instagram: "lunarojapa", whatsapp: "+507 6100 0118" },
-    published: true
+    published: true,
+    demo: true
   },
   {
     slug: "ciclo-panama",
@@ -351,7 +379,8 @@ window.BRANDS = [
     ],
     shipping: { type: "provinces", provinces: ["Veraguas", "Herrera", "Los Santos", "Coclé"] },
     links: { website: "", instagram: "ciclopanama", whatsapp: "+507 6100 0119" },
-    published: true
+    published: true,
+    demo: true
   },
   {
     slug: "vela-y-copal",
@@ -369,7 +398,8 @@ window.BRANDS = [
     ],
     shipping: { type: "nationwide", provinces: [] },
     links: { website: "velaycopal.com", instagram: "velaycopal", whatsapp: "+507 6100 0120" },
-    published: true
+    published: true,
+    demo: true
   },
   {
     slug: "casa-ambar",
@@ -386,7 +416,8 @@ window.BRANDS = [
     ],
     shipping: { type: "provinces", provinces: ["Los Santos", "Herrera", "Panamá"] },
     links: { website: "", instagram: "casaambarpedasi", whatsapp: "+507 6100 0121" },
-    published: true
+    published: true,
+    demo: true
   },
   {
     slug: "taller-gorgona",
@@ -404,7 +435,8 @@ window.BRANDS = [
     ],
     shipping: { type: "provinces", provinces: ["Panamá Oeste", "Panamá", "Coclé"] },
     links: { website: "", instagram: "tallergorgona", whatsapp: "+507 6100 0122" },
-    published: true
+    published: true,
+    demo: true
   },
   {
     slug: "madera-y-barro",
@@ -422,7 +454,8 @@ window.BRANDS = [
     ],
     shipping: { type: "nationwide", provinces: [] },
     links: { website: "maderaybarro.com", instagram: "maderaybarro", whatsapp: "+507 6100 0123" },
-    published: true
+    published: true,
+    demo: true
   },
   {
     slug: "pequeno-istmo",
@@ -440,6 +473,40 @@ window.BRANDS = [
     ],
     shipping: { type: "nationwide", provinces: [] },
     links: { website: "pequenoistmo.com", instagram: "pequenoistmo", whatsapp: "+507 6100 0124" },
-    published: true
+    published: true,
+    demo: true
   },
+
+  /* ---------------------------------------------------------------- *
+   * REAL BRAND. Castel Woodshop, Las Palmas de Gorgona, Chame.
+   * Source: the brand's profile form, submitted 21 Sep 2026 by
+   * Ernesto Castillo. Story text is the brand's own, first person, with
+   * an English version to match. Point of sale coordinates are the
+   * Gorgona town centre until the brand sends a map pin.
+   * ---------------------------------------------------------------- */
+  {
+    slug: "castel-woodshop",
+    name: "Castel Woodshop",
+    tagline: { en: "Handmade wooden pieces for the home and kitchen, in local woods",
+               es: "Piezas de madera hechas a mano para el hogar y la cocina, con maderas locales" },
+    about: {
+      en: "Scrolling through Instagram, watching artisans in the United States and Europe, I was fascinated by the beautiful pieces they shaped with their own hands: work so precise it looked as if a machine had made it.\n\nInspired by that craft, in 2022 I bought my first tools. Little by little, almost without noticing, I gathered enough equipment to open my own workshop, and over the last few years it became my great passion.\n\nThat is how Castel Woodshop was born, with the firm goal of becoming a business and a brand with an identity of its own. What makes us special is the use of local woods to bring everyday objects for the home to life. Every Castel Woodshop piece carries a high level of detail and subtlety. We do not only make functional objects; we make pieces that reveal their quality to the touch and stand out for the perfection of their finish, made to last and to transform any space.",
+      es: "Mientras navegaba por Instagram y observaba a artesanos de Estados Unidos y Europa, quedé fascinado por las hermosas creaciones que modelaban con sus propias manos; piezas tan perfectas que parecían fabricadas por maquinaria industrial.\n\nInspirado por este arte, en el año 2022 decidí comprar mis primeras herramientas. Poco a poco, y casi sin darme cuenta, reuní el equipamiento suficiente para abrir mi propio taller, el cual se convirtió en mi gran pasión durante los últimos años.\n\nAsí nace Castel Woodshop, con el firme propósito de transformarse en un negocio y una marca con identidad propia. Lo que nos hace especiales es el uso de maderas locales para dar vida a objetos cotidianos del hogar. En cada pieza de Castel Woodshop se respira un alto nivel de detalle y sutileza. No solo creamos objetos funcionales, sino piezas que revelan su calidad al tacto y destacan por la perfección de sus acabados, pensadas para durar y transformar cualquier espacio."
+    },
+    categories: ["living"],
+    products: ["cutting-board", "serving-tray", "beer-carrier", "liquor-dispenser", "wine-rack", "custom-wood"],
+    base: { town: "Las Palmas de Gorgona", townEs: "Las Palmas de Gorgona", province: "Panamá Oeste", lat: 8.5500, lng: -79.8833 },
+    pos: [
+      { name: "Taller Castel Woodshop", address: "Avenida Bella Vista, Lote U-01",
+        town: "Las Palmas de Gorgona, Chame", townEs: "Las Palmas de Gorgona, Chame", province: "Panamá Oeste",
+        lat: 8.5500, lng: -79.8833 }
+    ],
+    shipping: { type: "nationwide", provinces: [] },
+    links: { website: "", instagram: "castelwoodshop", whatsapp: "+507 6050 5505" },
+    photo: "castel-woodshop-cover.jpg",
+    photos: ["castel-woodshop-1.jpg", "castel-woodshop-2.jpg", "castel-woodshop-3.jpg", "castel-woodshop-4.jpg",
+             "castel-woodshop-5.jpg", "castel-woodshop-6.jpg", "castel-woodshop-7.jpg", "castel-woodshop-8.jpg"],
+    logo: "castel-woodshop-logo.png",
+    published: true
+  }
 ];

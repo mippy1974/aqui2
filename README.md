@@ -88,7 +88,25 @@ None of those are needed for V1 per the brief, and the admin area is
 deliberately out of the demo. The data shape is the same one the full version
 uses, so the content carries over.
 
-Brands and products in `data/` are invented placeholders.
+Most brands and products are invented placeholders and carry a `demo: true`
+flag, which shows as an "Example brand" tag in the app. Castel Woodshop
+(added 24 September 2026) is the first real brand: its text, photos and logo
+come from the brand's own profile form.
+
+## Brand photos
+
+A brand can carry `photo` (a 3:2 cover shown on the result card and at the top
+of the profile), `photos` (a scroll strip on the profile, tap to open full
+screen) and `logo` (a square tile beside the name). All three are optional.
+A brand without them keeps the tinted tile and category icon. File names are
+plain, for example `castel-woodshop-cover.jpg`, because this build is flat.
+
+## For brands
+
+`#/brands` is a short page for brands that want to join, linked from the
+footer and from the Mission page. Its button opens the brand profile form
+(a Jotform page) outside the app. The link lives in `content.js` under
+`brands.formUrl`, with `formUrlEs` reserved for a Spanish form.
 
 ## Legal pages
 
