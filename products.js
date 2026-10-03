@@ -1,7 +1,7 @@
 /* aquí - central product list.
    One product, one entry, two names. This is the list the brief asks us to own
    so the same thing never gets added twice under different spellings.
-   Brands link to these ids in data/brands.js (many to many). */
+   Brands link to these ids in brands.js (many to many). */
 
 window.PRODUCTS = [
   { id: 'kimchi',            en: 'Kimchi',                  es: 'Kimchi' },
@@ -59,5 +59,38 @@ window.PRODUCTS = [
   { id: 'beer-carrier',      en: 'Beer Carrier',            es: 'Portacervezas' },
   { id: 'liquor-dispenser',  en: 'Liquor Dispenser',        es: 'Dispensador de licor' },
   { id: 'wine-rack',         en: 'Wine Rack',               es: 'Vinera' },
-  { id: 'custom-wood',       en: 'Custom Wood Pieces',      es: 'Piezas de madera a medida' }
+  { id: 'custom-wood',       en: 'Custom Wood Pieces',      es: 'Piezas de madera a medida' },
+  /* added 2 Oct 2026 with Tierra Viva, natural cosmetics and cleaners.
+     The Spanish names are a first draft and wait for a native check.
+     Body Butter and Natural Deodorant are reused from above, not added twice.
+     Home Care and Skincare are broad terms; they are here because Tierra Viva
+     lists them on its own profile. */
+  { id: 'bar-soap',             en: 'Bar Soap',              es: 'Jabón en barra' },
+  { id: 'liquid-soap',          en: 'Liquid Soap',           es: 'Jabón líquido' },
+  { id: 'all-purpose-cleaner',  en: 'All Purpose Cleaner',   es: 'Limpiador multiusos' },
+  { id: 'laundry-soap',         en: 'Laundry Soap',          es: 'Jabón para ropa' },
+  { id: 'toilet-spray',         en: 'Toilet Spray',          es: 'Espray para inodoro' },
+  { id: 'bug-repellent',        en: 'Bug Repellent',         es: 'Repelente de insectos' },
+  { id: 'board-butter',         en: 'Board Butter',          es: 'Manteca para tablas de madera' },
+  { id: 'dishwasher-soap',      en: 'Dishwasher Soap',       es: 'Jabón lavaplatos' },
+  { id: 'toothpaste',           en: 'Toothpaste',            es: 'Pasta dental' },
+  { id: 'foot-soak-salts',      en: 'Foot Soak Salts',       es: 'Sales para baño de pies' },
+  { id: 'essential-oil-roller', en: 'Essential Oil Rollers', es: 'Roll-ons de aceites esenciales' },
+  { id: 'home-care',            en: 'Home Care',             es: 'Cuidado del hogar' },
+  { id: 'skincare',             en: 'Skincare',              es: 'Cuidado de la piel' },
+  /* added 2 Oct 2026 with Deli Saludable, healthy artisan food and drinks.
+     Spanish names follow the brand's own form where it wrote Spanish. The
+     English names, and Crema para untar, are a first draft and wait for a native
+     check. Hot Sauce and Kombucha are reused from above, not added twice. */
+  { id: 'jam',                  en: 'Jam & Marmalade',       es: 'Mermelada' },
+  { id: 'spread',               en: 'Spread',                es: 'Crema para untar' },
+  { id: 'healthy-snacks',       en: 'Healthy Snacks',        es: 'Snacks saludables' },
+  { id: 'pesto',                en: 'Pesto',                 es: 'Pesto' },
+  { id: 'chimichurri',          en: 'Chimichurri',           es: 'Chimichurri' },
+  { id: 'tomato-sauce',         en: 'Tomato Sauce',          es: 'Salsa de tomate' },
+  { id: 'dried-tomatoes',       en: 'Dried Tomatoes in Extra Virgin Olive Oil',
+                                 es: 'Tomates deshidratados en aceite de oliva virgen extra' },
+  { id: 'apple-cider-vinegar',  en: 'Apple Cider Vinegar',   es: 'Vinagre de manzana' },
+  { id: 'bone-broth',           en: 'Bone Broth',            es: 'Caldo de huesos' },
+  { id: 'coffee-liqueur',       en: 'Coffee Liqueur',        es: 'Licor de café' }
 ];

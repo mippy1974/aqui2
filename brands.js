@@ -5,26 +5,57 @@
      name        display name, same in both languages
      tagline     one line, en / es
      about       About section, en / es
-     categories  one or more category ids from data/categories.js
-     products    product ids from data/products.js (many to many)
+     categories  one or more category ids from categories.js
+     products    product ids from products.js (many to many)
      base        where the brand is based or produces. NOT used for radius search.
+                 Optional: leave it out when the brand has not said, and the
+                 profile shows no location line (Deli Saludable today).
      pos         retail points of sale. THESE are what the radius search uses.
                  each has a shop name, a town, and its own coordinates.
-     shipping    { type: 'nationwide' | 'provinces' | 'none', provinces: [...] }
+     shipping    { type: 'nationwide' | 'provinces' | 'none', provinces: [...],
+                   note: { en, es } }
+                 type and provinces decide the search. note is optional: the
+                 brand's own words for the Shipping row on the profile, for
+                 example "All over Panama via Uno Express and Fletes Chavales".
+                 Without a note the row says "Nationwide shipping available"
+                 or lists the provinces.
      links       website, instagram, whatsapp
 
      demo        true on the invented placeholder brands. They show a small
                  "Example brand" tag in the app. Real brands have no demo flag.
-     photo       cover image file (3:2 works best). Shown on the result card and
-                 at the top of the profile. Leave it out and the brand gets a
-                 tinted tile with its category icon, as before.
-     photos      gallery files, shown as a scroll strip on the profile
-     logo        square logo tile shown beside the brand name on the profile
-     pos.address optional street line under a point of sale
+     photo       cover image file (3:2 works best). Shown on the result card, and
+                 at the top of the profile unless the brand has a hero. Leave it
+                 out and the brand gets a tinted tile with its category icon.
+     hero        optional wide photo for the top of the profile, 3 to 1 (for
+                 example 1500 x 500 pixels): the brand's products styled on one
+                 surface. Without it the profile crops the cover photo to the
+                 same wide band.
+     heroPos     optional, which part of the photo stays in view when it is
+                 cropped to the band, for example "50% 30%" (left to right, top
+                 to bottom). Default is the centre.
+     photos      "Product Examples" on the profile: four across, more scroll
+                 sideways, tap one to open it full screen
+     logo        logo file, shown in a round frame beside the brand name. Square,
+                 with the mark in the middle. Without one the profile shows the
+                 brand's initials in a tinted circle.
+     pos.note    optional, { en, es }: the days or hours, shown under the shop
+                 name in place of the town, for example
+                 { en: "Every Friday", es: "Todos los viernes" }
+     pos.address optional street line, shown when the row is opened
+
+   On the profile, Where to buy is one row per point of sale. A row shows an
+   arrow and opens in place only when it has more to show: an address, or the
+   town once pos.note has taken its place. A row with nothing behind it has no
+   arrow.
 
    The invented brands use generated tiles instead of photos, so nothing there
    claims to be real. Castel Woodshop (24 Sep 2026) is the first real brand:
-   text and photos come from the brand's own profile form. */
+   text and photos come from the brand's own profile form. Tierra Viva (2 Oct
+   2026) is the second and Deli Saludable (2 Oct 2026) the third.
+
+   Where a brand's "any other link" is a WhatsApp catalog link (wa.me/c/...),
+   it sits in links.website, because the profile has no separate catalog
+   button. Write links.website without https://, as the others are. */
 
 window.BRANDS = [
   {
@@ -503,10 +534,92 @@ window.BRANDS = [
     ],
     shipping: { type: "nationwide", provinces: [] },
     links: { website: "", instagram: "castelwoodshop", whatsapp: "+507 6050 5505" },
-    photo: "castel-woodshop-cover.jpg",
-    photos: ["castel-woodshop-1.jpg", "castel-woodshop-2.jpg", "castel-woodshop-3.jpg", "castel-woodshop-4.jpg",
-             "castel-woodshop-5.jpg", "castel-woodshop-6.jpg", "castel-woodshop-7.jpg", "castel-woodshop-8.jpg"],
-    logo: "castel-woodshop-logo.png",
+    /* 2 Oct 2026: updated photos, hero and logo from Nadine's fixed set. The new
+       files carry v2 in the name so the earlier castel-woodshop-1 to 8 files,
+       the cover and the first logo stay in the repo untouched, unused. */
+    photo: "castel-woodshop-v2-cover.jpg",
+    hero: "castel-woodshop-hero.jpg",
+    photos: ["castel-woodshop-v2-1.jpg", "castel-woodshop-v2-2.jpg", "castel-woodshop-v2-3.jpg", "castel-woodshop-v2-4.jpg",
+             "castel-woodshop-v2-5.jpg", "castel-woodshop-v2-6.jpg", "castel-woodshop-v2-7.jpg", "castel-woodshop-v2-8.jpg"],
+    logo: "castel-woodshop-v2-logo.png",
+    published: true
+  },
+  /* Tierra Viva cosmetics & cleaners (2 Oct 2026), second real brand.
+     Text, products and places to buy come from Nadine's finished profile
+     screenshot of 2 Oct 2026. The Spanish text is a first draft. The links,
+     the courier line for Bocas del Toro and the photos, hero and logo come
+     from the brand's own form and folder. */
+  {
+    slug: "tierra-viva",
+    name: "Tierra Viva cosmetics & cleaners",
+    tagline: { en: "Natural toxin free cosmetics and cleaners that actually work",
+               es: "Cosméticos y productos de limpieza naturales, sin toxinas, que de verdad funcionan" },
+    about: {
+      en: "Amazing natural toxin free cosmetics and cleaners that actually work! Made in Panama. Tierra Viva creates effective, natural products for everyday care, using high quality ingredients and a deep love for the natural world.",
+      es: "¡Cosméticos y productos de limpieza naturales, sin toxinas, que de verdad funcionan! Hechos en Panamá. Tierra Viva crea productos naturales y eficaces para el cuidado diario, con ingredientes de alta calidad y un profundo amor por el mundo natural."
+    },
+    categories: ["skincare", "living"],
+    products: ["bar-soap", "liquid-soap", "all-purpose-cleaner", "laundry-soap", "toilet-spray",
+               "bug-repellent", "board-butter", "dishwasher-soap", "deodorant", "body-butter",
+               "toothpaste", "foot-soak-salts", "essential-oil-roller", "home-care", "skincare"],
+    base: { town: "El Volcán", townEs: "El Volcán", province: "Chiriquí", lat: 8.7833, lng: -82.6333 },
+    pos: [
+      { name: "Volcán Market", note: { en: "Every Friday", es: "Todos los viernes" },
+        town: "Volcán", townEs: "Volcán", province: "Chiriquí", lat: 8.7833, lng: -82.6333 },
+      { name: "Boquete Market", note: { en: "Every Tuesday", es: "Todos los martes" },
+        town: "Boquete", townEs: "Boquete", province: "Chiriquí", lat: 8.7800, lng: -82.4400 },
+      { name: "The Red Barn",
+        town: "Coronado", townEs: "Coronado", province: "Panamá Oeste", lat: 8.5333, lng: -79.9500 }
+    ],
+    shipping: { type: "nationwide", provinces: [],
+                note: { en: "All over Panama via Uno Express and Fletes Chavales, or courier to Bocas del Toro",
+                        es: "A todo Panamá con Uno Express y Fletes Chavales, o por courier a Bocas del Toro" } },
+    /* From the brand's form: Instagram @tierra_viva.volcan, WhatsApp (507) 689 88046, and a
+       WhatsApp catalog link that sits in website. */
+    links: { website: "wa.me/c/50768988046", instagram: "tierra_viva.volcan", whatsapp: "+507 6898 8046" },
+    photo: "tierra-viva-cover.jpg",
+    hero: "tierra-viva-hero.jpg",
+    photos: ["tierra-viva-1.jpg", "tierra-viva-2.jpg", "tierra-viva-3.jpg", "tierra-viva-4.jpg",
+             "tierra-viva-5.jpg", "tierra-viva-6.jpg", "tierra-viva-7.jpg", "tierra-viva-8.jpg"],
+    logo: "tierra-viva-logo.jpg",
+    published: true
+  },
+  {
+    /* Deli Saludable, 2 Oct 2026. Text, products, places and links come from the
+       brand's own form (in Spanish). The English About is a translation draft.
+       OPEN: the form does not say where the brand is based, so there is no base
+       and no location line. The form also says "aptos para veganos" for all
+       products while the list includes chicken bone broth: confirm the wording
+       with the brand. */
+    slug: "deli-saludable",
+    name: "Deli Saludable",
+    tagline: { en: "Artisan healthy foods, honest food at a fair price",
+               es: "Alimentos artesanales y saludables, comida honesta a precio justo" },
+    about: {
+      en: "We are Deli Saludable, Artisan Healthy Foods, a family business that handcrafts healthy products and seals them under vacuum. Honest food at a fair price.\n\nOur products are 100% natural, low in salt, low in fat, with no added sugar, free of chemicals, preservatives, colorings and sweeteners, and suitable for vegans. We use selected local ingredients.\n\nWe use recyclable glass jars and encourage recycling through our “Join our green circle” program: customers earn a reward for every clean jar they return. We use reusable bags for our deliveries.",
+      es: "Somos Deli Saludable (Artisan Healthy Foods), un emprendimiento familiar de elaboración artesanal de productos saludables y sellados al vacío. Comida honesta a precio justo.\n\nNuestros productos se caracterizan por ser 100% naturales, bajos en sal, sin azúcar añadido, bajos en grasa, sin químicos/conservantes/colorantes/endulzantes, aptos para veganos. Utilizamos materia prima local, seleccionada.\n\nUtilizamos envases de vidrio (reciclables), incentivamos el reciclaje con nuestros clientes mediante el programa “únete a nuestro círculo verde” con el cual obtienes una recompensa por cada envase limpio devuelto, utilizamos bolsas reutilizables para nuestras entregas."
+    },
+    categories: ["food"],
+    products: ["jam", "spread", "healthy-snacks", "pesto", "chimichurri", "tomato-sauce",
+               "dried-tomatoes", "hot-sauce", "apple-cider-vinegar", "kombucha", "bone-broth", "coffee-liqueur"],
+    pos: [
+      { name: "Sizzle & Spice", note: { en: "Gorgona Beach Plaza", es: "Gorgona Beach Plaza" },
+        town: "Gorgona", townEs: "Gorgona", province: "Panamá Oeste", lat: 8.5500, lng: -79.8833 },
+      { name: "El Trapiche", note: { en: "Bella Vista", es: "Bella Vista" },
+        town: "Panama City", townEs: "Ciudad de Panamá", province: "Panamá", lat: 8.9824, lng: -79.5199 }
+    ],
+    /* The form answers "Panamá (área metropolitana)". Only Panama City is in
+       places.js for now, so provinces lists Panamá. */
+    shipping: { type: "provinces", provinces: ["Panamá"],
+                note: { en: "Panama City metro area", es: "Panamá (área metropolitana)" } },
+    /* From the brand's form: Instagram delisaludable.pa, WhatsApp (+507) 666 13469, and a
+       WhatsApp catalog link that sits in website. */
+    links: { website: "wa.me/c/50766613469", instagram: "delisaludable.pa", whatsapp: "+507 6661 3469" },
+    photo: "deli-saludable-cover.jpg",
+    hero: "deli-saludable-hero.jpg",
+    photos: ["deli-saludable-1.jpg", "deli-saludable-2.jpg", "deli-saludable-3.jpg", "deli-saludable-4.jpg",
+             "deli-saludable-5.jpg", "deli-saludable-6.jpg", "deli-saludable-7.jpg", "deli-saludable-8.jpg"],
+    logo: "deli-saludable-logo.png",
     published: true
   }
 ];

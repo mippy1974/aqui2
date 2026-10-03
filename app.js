@@ -52,9 +52,10 @@ var STRINGS = {
     about: 'About',
     basedIn: 'Based in',
     productsLabel: 'Products',
+    examplesLabel: 'Product Examples',
     posLabel: 'Where to buy',
     shippingLabel: 'Shipping',
-    shipNationwide: 'Ships anywhere in Panama',
+    shipNationwide: 'Nationwide shipping available',
     shipProvinces: 'Ships to: ',
     shipNone: 'No shipping. Available at the points of sale above.',
     linksLabel: 'Find this brand',
@@ -124,9 +125,10 @@ var STRINGS = {
     about: 'Sobre la marca',
     basedIn: 'Con base en',
     productsLabel: 'Productos',
+    examplesLabel: 'Ejemplos de productos',
     posLabel: 'Dónde comprar',
     shippingLabel: 'Envíos',
-    shipNationwide: 'Envía a todo Panamá',
+    shipNationwide: 'Envíos disponibles en todo Panamá',
     shipProvinces: 'Envía a: ',
     shipNone: 'Sin envíos. Disponible en los puntos de venta de arriba.',
     linksLabel: 'Encuentra esta marca',
@@ -231,7 +233,7 @@ function categoryIconFor(brand) {
   var c = categoryById(brand.categories[0]);
   return c ? c.icon : 'browse.png';
 }
-/* Category tile. Shows the photo named in data/categories.js when that file
+/* Category tile. Shows the photo named in categories.js when that file
    exists, and falls back to the line icon when it does not, so photos can be
    added one at a time without touching the code. A .jpg that is missing is
    retried once as .png before the icon takes over. */
@@ -256,6 +258,42 @@ function chevronHTML(cls) {
            '<path d="M1.25 1.25 L6.5 6.5 L1.25 11.75" stroke="currentColor" ' +
            'stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/>' +
          '</svg>';
+}
+/* Back button for inner pages: drawn chevron plus the word. */
+function backBtnHTML() {
+  return '<button type="button" class="back" data-back="1">' +
+           chevronHTML('back-chev') + esc(t().back) + '</button>';
+}
+/* Line icons for the brand profile. Each is one small drawing in the colour of
+   the text around it; --icon in styles.css sets that colour. */
+function lineIcon(inner) {
+  return '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" ' +
+         'stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">' + inner + '</svg>';
+}
+var ICONS = {
+  pin: lineIcon('<path d="M12 21s-6.5-5.7-6.5-11a6.5 6.5 0 0 1 13 0c0 5.3-6.5 11-6.5 11z"/><circle cx="12" cy="10" r="2.3"/>'),
+  store: lineIcon('<path d="M3.5 9.5 5.5 4h13l2 5.5"/>' +
+    '<path d="M3.5 9.5a2.83 2.83 0 0 0 5.67 0 2.83 2.83 0 0 0 5.66 0 2.83 2.83 0 0 0 5.67 0"/>' +
+    '<path d="M5 12.2v8.3h14v-8.3"/><path d="M10 20.5v-4.8h4v4.8"/>'),
+  truck: lineIcon('<path d="M2.5 6.5H14V16H2.5z"/><path d="M14 9.5h4l3 3.5v3H14"/>' +
+    '<circle cx="7" cy="17.5" r="2" style="fill:var(--ground)"/><circle cx="17" cy="17.5" r="2" style="fill:var(--ground)"/>'),
+  instagram: lineIcon('<rect x="3.5" y="3.5" width="17" height="17" rx="5"/><circle cx="12" cy="12" r="4"/>' +
+    '<circle cx="17.3" cy="6.7" r=".7" fill="currentColor" stroke="none"/>'),
+  whatsapp: lineIcon('<path d="M3.6 20.4l1.2-4.3a8.5 8.5 0 1 1 3.2 3.1z"/>' +
+    '<path d="M9.4 8.3c-.5.8-.2 2.1 1.1 3.6s2.8 2.2 3.8 1.9l.8-.8c.2-.2.2-.5 0-.7l-1.2-.9c-.2-.2-.5-.1-.7.1l-.4.4' +
+    'c-.7-.3-1.5-1-1.9-1.8l.4-.4c.2-.2.2-.5.1-.7l-.8-1.3c-.2-.3-.6-.3-.8 0z"/>'),
+  link: lineIcon('<path d="M10 13.5a4.5 4.5 0 0 0 6.4.4l3-3a4.5 4.5 0 0 0-6.4-6.4l-1.7 1.7"/>' +
+    '<path d="M14 10.5a4.5 4.5 0 0 0-6.4-.4l-3 3a4.5 4.5 0 0 0 6.4 6.4l1.7-1.7"/>')
+};
+/* Initials for a brand with no logo file yet: the first letter of up to two
+   main words, so "Sol de Tierra" gives ST. */
+var SMALL_WORDS = ['a', 'and', 'de', 'del', 'e', 'el', 'la', 'las', 'los', 'of', 'the', 'y'];
+function monogram(name) {
+  var words = String(name).split(/\s+/).filter(function (w) {
+    return w && SMALL_WORDS.indexOf(w.toLowerCase()) === -1;
+  });
+  if (!words.length) words = [String(name).charAt(0)];
+  return words.slice(0, 2).map(function (w) { return w.charAt(0); }).join('').toUpperCase();
 }
 /* Called after every render that draws category tiles. */
 function wireCatPhotos() {
@@ -283,15 +321,22 @@ function tintFor(slug) {
 /* Result card thumbnail and profile hero. A brand with a photo shows it; a
    brand without one keeps the tinted tile and category icon. */
 function brandThumbHTML(b) {
-  if (b.photo) {
-    return '<div class="thumb has-photo"><img src="' + esc(b.photo) + '" alt=""></div>';
+  var src = b.photo || b.hero;
+  if (src) {
+    return '<div class="thumb has-photo"><img src="' + esc(src) + '" alt=""></div>';
   }
   return '<div class="thumb" style="background:' + tintFor(b.slug) + '">' +
            '<img src="' + esc(categoryIconFor(b)) + '" alt=""></div>';
 }
+/* Wide band at the top of a profile (3:1). A brand uses its own `hero` photo
+   when it has one, otherwise its cover `photo` cropped to the same band.
+   `heroPos` (optional) says which part of the photo stays in view, for
+   example "50% 30%". No photo at all: tinted band with the category icon. */
 function brandHeroHTML(b) {
-  if (b.photo) {
-    return '<div class="hero has-photo"><img src="' + esc(b.photo) + '" alt=""></div>';
+  var src = b.hero || b.photo;
+  if (src) {
+    return '<div class="hero has-photo"><img src="' + esc(src) + '" alt=""' +
+           (b.heroPos ? ' style="object-position:' + esc(b.heroPos) + '"' : '') + '></div>';
   }
   return '<div class="hero" style="background:' + tintFor(b.slug) + '">' +
            '<img src="' + esc(categoryIconFor(b)) + '" alt=""></div>';
@@ -520,7 +565,7 @@ function viewResults() {
   if (state.shipping) sub.push(s.ships.toLowerCase());
 
   var html =
-    '<button type="button" class="back" data-back="1">‹ ' + esc(s.back) + '</button>' +
+    backBtnHTML() +
     '<div class="results-head">' +
       '<h2>' + esc(heading) + '</h2>' +
       '<span class="count">' + esc(s.resultCount(rows.length)) + '</span>' +
@@ -582,99 +627,153 @@ function viewResults() {
   });
 }
 
+/* One row of the profile (Where to buy, Shipping). With `detail` it is a
+   button that opens in place and shows a chevron; without it the row is plain
+   text, because a chevron with nothing behind it would be a dead button. */
+function rowHTML(key, icon, label, lines, detail) {
+  var head = '<span class="row-icon">' + icon + '</span>' +
+             '<span class="row-text"><b>' + esc(label) + '</b>' + lines + '</span>';
+  if (!detail) return '<div class="row"><div class="row-top">' + head + '</div></div>';
+  return '<div class="row">' +
+           '<button type="button" class="row-top" aria-expanded="false" aria-controls="row-' + key + '">' +
+             head + chevronHTML('row-chev') +
+           '</button>' +
+           '<div class="row-detail" id="row-' + key + '" hidden>' + detail + '</div>' +
+         '</div>';
+}
+/* One round "Find this brand" button. All three open outside the app. */
+function findHTML(href, icon, label, aria) {
+  return '<a href="' + esc(href) + '" target="_blank" rel="noopener" aria-label="' +
+           esc(aria + ', ' + t().openLink.toLowerCase()) + '">' +
+           '<span class="find-dot">' + icon + '</span><span>' + esc(label) + '</span></a>';
+}
+
 function viewBrand(slug) {
   var s = t();
   var b = brandBySlug(slug);
   if (!b) { location.hash = '#/'; return; }
 
+  var es = state.lang === 'es';
+  /* base is optional: a brand that has not said where it is based simply has no
+     location line under its name, rather than a guessed one. */
+  var baseTown = b.base ? (es ? b.base.townEs : b.base.town) : '';
+  /* One line per category, so a name such as "Home & Living" never breaks
+     in the middle when a brand sits in more than one category. */
   var cats = b.categories.map(function (id) {
     var c = categoryById(id);
-    return c ? '<span class="tag">' + esc(nameOf(c)) + '</span>' : '';
+    return c ? '<span>' + esc(nameOf(c)) + '</span>' : '';
   }).join('');
 
-  var prods = b.products.map(function (id) {
-    var p = productById(id);
-    return p ? '<span class="tag">' + esc(nameOf(p)) + '</span>' : '';
-  }).join('');
-
-  var posHTML = b.pos.map(function (p) {
-    var town = state.lang === 'es' ? p.townEs : p.town;
-    return '<div class="pos-item">' + esc(p.name) +
-           (p.address ? '<span>' + esc(p.address) + '</span>' : '') +
-           '<span>' + esc(town) + ', ' + esc(p.province) + '</span></div>';
-  }).join('');
+  /* Head: round logo (initials until the brand has one), name, base, category. */
+  var logoHTML = b.logo
+    ? '<div class="brand-logo"><img src="' + esc(b.logo) + '" alt=""></div>'
+    : '<div class="brand-logo mono" style="background:' + tintFor(b.slug) + '" aria-hidden="true">' +
+        esc(monogram(b.name)) + '</div>';
+  var headHTML =
+    '<div class="brand-head">' + logoHTML +
+      '<div class="brand-head-text">' +
+        '<h1 class="brand-name">' + esc(b.name) + '</h1>' +
+        (b.base ? '<p class="brand-loc">' + ICONS.pin + '<span>' + esc(baseTown) + ', ' + esc(b.base.province) + '</span></p>' : '') +
+        '<p class="brand-cat">' + cats + '</p>' +
+        (b.demo ? '<div class="brand-flags">' + exampleTagHTML(b) + '</div>' : '') +
+      '</div>' +
+    '</div>';
 
   /* About text: a blank line in the data starts a new paragraph. */
   var aboutHTML = String(nameOf(b.about)).split(/\n\s*\n/).map(function (para) {
     return '<p>' + esc(para) + '</p>';
   }).join('');
 
-  /* Photo strip. Tap a photo to see it full screen. */
-  var galleryHTML = '';
+  /* Product Examples: the brand's photos. Tap one to see it full screen. */
+  var examplesHTML = '';
   if (b.photos && b.photos.length) {
-    galleryHTML = '<div class="gallery">' + b.photos.map(function (src, i) {
-      return '<button type="button" class="g-item" data-photo="' + esc(src) +
-             '" aria-label="' + esc(s.photoOf(b.name, i + 1)) + '">' +
-             '<img src="' + esc(src) + '" alt="" loading="lazy"></button>';
-    }).join('') + '</div>';
+    examplesHTML =
+      '<div class="sec"><h2>' + esc(s.examplesLabel) + '</h2><div class="examples">' +
+      b.photos.map(function (src, i) {
+        return '<button type="button" class="g-item" data-photo="' + esc(src) +
+               '" aria-label="' + esc(s.photoOf(b.name, i + 1)) + '">' +
+               '<img src="' + esc(src) + '" alt="" loading="lazy"></button>';
+      }).join('') +
+      '</div></div>';
   }
 
-  var headHTML = b.logo
-    ? '<div class="brand-head">' +
-        '<div class="brand-logo"><img src="' + esc(b.logo) + '" alt=""></div>' +
-        '<div class="brand-head-text">' +
-          '<h1 class="brand-name">' + esc(b.name) + '</h1>' +
-          '<p class="brand-tag">' + esc(nameOf(b.tagline)) + '</p>' +
-        '</div>' +
-      '</div>'
-    : '<h1 class="brand-name">' + esc(b.name) + '</h1>' +
-      '<p class="brand-tag">' + esc(nameOf(b.tagline)) + '</p>';
+  var pills = b.products.map(function (id) {
+    var p = productById(id);
+    return p ? '<span class="pill">' + esc(nameOf(p)) + '</span>' : '';
+  }).join('');
+  var productsHTML = pills
+    ? '<div class="sec"><h2>' + esc(s.productsLabel) + '</h2><div class="pills">' + pills + '</div></div>'
+    : '';
 
-  var shipText = b.shipping.type === 'nationwide' ? s.shipNationwide
+  /* Where to buy: a heading, then one row per point of sale, then Shipping in
+     the same list. Each row shows the shop name and, under it, the days the
+     brand gave (pos.note, for example "Every Friday") or else the town.
+     A row opens in place only when there is more to show: a street address,
+     or the town once the days have taken its place. A row with nothing
+     behind it has no arrow, so no arrow is ever a dead button. */
+  var townOf = function (p) { return es ? p.townEs : p.town; };
+  var rows = '';
+  b.pos.forEach(function (p, i) {
+    var sub = p.note ? nameOf(p.note) : townOf(p);
+    var detail = (p.address || p.note)
+      ? (p.address ? '<span>' + esc(p.address) + '</span>' : '') +
+        '<span>' + esc(townOf(p) + ', ' + p.province) + '</span>'
+      : '';
+    rows += rowHTML('buy' + i, ICONS.store, p.name, '<span>' + esc(sub) + '</span>', detail);
+  });
+  /* Shipping text: the brand's own words (shipping.note) when it gave some,
+     otherwise a standard line built from shipping.type. */
+  var shipText = b.shipping.note ? nameOf(b.shipping.note)
+               : b.shipping.type === 'nationwide' ? s.shipNationwide
                : b.shipping.type === 'none' ? s.shipNone
                : s.shipProvinces + b.shipping.provinces.join(', ');
+  rows += rowHTML('ship', ICONS.truck, s.shippingLabel, '<span>' + esc(shipText) + '</span>', '');
+  /* A brand with no place and no shipping has nothing to show here. */
+  var buyHTML = (b.pos.length || b.shipping.type !== 'none')
+    ? '<div class="sec"><h2>' + esc(s.posLabel) + '</h2><div class="rows">' + rows + '</div></div>'
+    : '';
 
-  var links = '';
-  if (b.links.website) {
-    links += '<a class="link-btn" href="https://' + esc(b.links.website) + '" target="_blank" rel="noopener">' +
-             '<span>' + esc(s.website) + '</span><em>' + esc(s.openLink) + '</em></a>';
-  }
+  /* Find this brand: Instagram, WhatsApp, Website, only the ones it has. */
+  var find = '';
   if (b.links.instagram) {
-    links += '<a class="link-btn" href="https://instagram.com/' + esc(b.links.instagram) + '" target="_blank" rel="noopener">' +
-             '<span>' + esc(s.instagram) + '</span><em>@' + esc(b.links.instagram) + '</em></a>';
+    find += findHTML('https://instagram.com/' + b.links.instagram, ICONS.instagram, s.instagram,
+                     s.instagram + ' @' + b.links.instagram);
   }
   if (b.links.whatsapp) {
     /* The chat opens with a short greeting already typed, so the brand can see
        the contact came through aquí. The person can edit or delete it. */
-    links += '<a class="link-btn" href="https://wa.me/' + esc(b.links.whatsapp.replace(/[^0-9]/g, '')) +
-             '?text=' + encodeURIComponent(s.waIntro(b.name)) +
-             '" target="_blank" rel="noopener">' +
-             '<span>' + esc(s.whatsapp) + '</span><em>' + esc(b.links.whatsapp) + '</em></a>';
+    find += findHTML('https://wa.me/' + b.links.whatsapp.replace(/[^0-9]/g, '') +
+                     '?text=' + encodeURIComponent(s.waIntro(b.name)),
+                     ICONS.whatsapp, s.whatsapp, s.whatsapp + ' ' + b.links.whatsapp);
+  }
+  if (b.links.website) {
+    find += findHTML('https://' + b.links.website, ICONS.link, s.website, s.website + ' ' + b.links.website);
   }
 
-  var baseTown = state.lang === 'es' ? b.base.townEs : b.base.town;
-
   render(
-    '<button type="button" class="back" data-back="1">‹ ' + esc(s.back) + '</button>' +
+    backBtnHTML() +
     brandHeroHTML(b) +
     headHTML +
-    '<div class="pill-list">' + cats + exampleTagHTML(b) + '</div>' +
-    galleryHTML +
-    '<div class="kv" style="border-top:0;padding-top:16px">' +
-      '<b>' + esc(s.about) + '</b><div class="about">' + aboutHTML + '</div>' +
-    '</div>' +
-    '<div class="kv"><b>' + esc(s.basedIn) + '</b>' +
-      '<div class="val">' + esc(baseTown) + ', ' + esc(b.base.province) + '</div></div>' +
-    '<div class="kv"><b>' + esc(s.productsLabel) + '</b><div class="pill-list">' + prods + '</div></div>' +
-    '<div class="kv"><b>' + esc(s.posLabel) + '</b>' + posHTML + '</div>' +
-    '<div class="kv"><b>' + esc(s.shippingLabel) + '</b><div class="val">' + esc(shipText) + '</div></div>' +
-    '<div class="kv"><b>' + esc(s.linksLabel) + '</b><div class="links">' + links + '</div></div>' +
+    '<div class="sec"><h2>' + esc(s.about) + '</h2><div class="about">' + aboutHTML + '</div></div>' +
+    examplesHTML +
+    productsHTML +
+    buyHTML +
+    (find ? '<div class="sec"><h2>' + esc(s.linksLabel) + '</h2><div class="find">' + find + '</div></div>' : '') +
     footerHTML()
   );
 
   each('[data-back]', function (n) { n.onclick = function () { history.back(); }; });
   each('[data-photo]', function (n) {
     n.onclick = function () { openPhoto(n.getAttribute('data-photo'), n.getAttribute('aria-label')); };
+  });
+  each('button.row-top', function (btn) {
+    btn.onclick = function () {
+      var row = btn.parentNode;
+      var open = !row.classList.contains('open');
+      row.classList.toggle('open', open);
+      btn.setAttribute('aria-expanded', open ? 'true' : 'false');
+      el(btn.getAttribute('aria-controls')).hidden = !open;
+    };
   });
 }
 
@@ -739,7 +838,7 @@ function viewLegalDoc(which) {
   var s = t();
   var doc = CONTENT[which][state.lang];
   render(
-    '<button type="button" class="back" data-back="1">‹ ' + esc(s.back) + '</button>' +
+    backBtnHTML() +
     '<h1 class="page-title">' + esc(doc.title) + '</h1>' +
     docPageHTML(doc) + footerHTML()
   );
@@ -823,11 +922,20 @@ function wireSearchForm(opts) {
       var out = [];
       PRODUCTS.forEach(function (p) {
         var here = norm(nameOf(p)), there = norm(state.lang === 'es' ? p.en : p.es);
-        if (here.indexOf(q) > -1) out.push({ id: p.id, label: nameOf(p) });
-        else if (there.indexOf(q) > -1) {
-          out.push({ id: p.id, label: nameOf(p), note: (state.lang === 'es' ? p.en : p.es) });
+        if (here.indexOf(q) > -1) {
+          out.push({ id: p.id, label: nameOf(p), n: out.length,
+                     rank: here.indexOf(q) === 0 ? 0 : (here.indexOf(' ' + q) > -1 ? 1 : 2) });
+        } else if (there.indexOf(q) > -1) {
+          out.push({ id: p.id, label: nameOf(p), note: (state.lang === 'es' ? p.en : p.es), n: out.length,
+                     rank: there.indexOf(q) === 0 ? 3 : (there.indexOf(' ' + q) > -1 ? 4 : 5) });
         }
       });
+      /* Best match first: a name that starts with what was typed, then a name
+         with a word that starts with it, then anywhere inside it. The other
+         language's names come after those. Equal ranks keep the list order.
+         So "jam" suggests Jam & Marmalade before Hibiscus Tea (whose Spanish
+         name, flor de Jamaica, also contains it). */
+      out.sort(function (a, b) { return a.rank - b.rank || a.n - b.n; });
       return out;
     }, function (it) {
       state.productId = it.id;
@@ -864,7 +972,7 @@ function wireSearchForm(opts) {
 
   /* Use my location.
      Reads the browser position once, matches it to the nearest town in
-     data/places.js, and throws the coordinates away. Nothing is stored. */
+     places.js, and throws the coordinates away. Nothing is stored. */
   var geo = el('geoBtn'), msg = el('geoMsg');
   if (geo) geo.onclick = function () {
     if (!navigator.geolocation) { msg.textContent = s.locFail; return; }

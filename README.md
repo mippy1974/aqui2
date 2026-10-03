@@ -18,35 +18,37 @@ branch, root folder. Keep the `.nojekyll` file.
 index.html          markup shell: header, view container, tab bar
 styles.css          all styling, one file
 app.js              text, state, search, views, router
-data/categories.js  the seven browse categories
-data/products.js    central product list, English and Spanish names
-data/places.js      searchable towns with coordinates and province
-data/brands.js      brands, points of sale, shipping coverage, links
-data/content.js     Mission, Privacy Policy, Terms of Use, both languages
-assets/logo.png     wordmark
-assets/hero.jpg     home screen photo
-assets/icons/       navigation and category icons
-assets/categories/  category card photos, one per category id
+categories.js       the eight browse categories
+products.js         central product list, English and Spanish names
+places.js           searchable towns with coordinates and province
+brands.js           brands, points of sale, shipping coverage, links
+content.js          Mission, Privacy Policy, Terms of Use, both languages
+logo.png            wordmark
+hero.jpg            home screen photo
+favicon.png         browser tab and home screen icon
+home.png, browse.png, location.png, mission.png, shipping.png
+                    navigation and page icons
+cat-<id>.png        category line icons
+<id>.jpg            category card photos, one per category id
+<brand>-....jpg     brand photos, heroes, covers and logos
 ```
 
-Editing content means editing the files in `data/`. They are plain JavaScript
-arrays with comments explaining each field. In the full version this content
+Editing content means editing the data files: `categories.js`, `products.js`,
+`places.js`, `brands.js` and `content.js`. They are plain JavaScript arrays with
+comments explaining each field. In the full version this content
 moves behind a password protected admin area.
 
 ## Category cards
 
 Each category is one card: a photo across the top, then a paper strip holding
-the name and a chevron. The card looks for `assets/categories/<id>.jpg`, and
+the name and a chevron. The card looks for `<id>.jpg` next to `index.html`, and
 falls back to the category line icon when no file is there, so photos can be
 replaced or added one at a time with no code change.
 
 The photo box is a wide strip, about 2.1 times wider than tall. Send new photos
 landscape, at least 1200 pixels wide, subject in the middle band.
 
-Photo status today: skincare is the full size photo from the designer. Herbs,
-food and menstrual were taken from her layout image and are small, fine for the
-demo and worth replacing. Ritual, living and kids are stand ins cut from the
-home screen photo, there so the grid reads as one finished set.
+Photo status today: all eight category photos are in place, 1600 pixels wide.
 
 ## How the search works
 
@@ -70,7 +72,7 @@ service is called.
 
 Typing a location is the primary path, because someone in Coronado may be
 planning a trip to Boquete. "Use my location" is optional. It reads the browser
-position once, matches it to the nearest town in `data/places.js`, and discards
+position once, matches it to the nearest town in `places.js`, and discards
 the coordinates. Nothing is stored or transmitted.
 
 ## Languages
@@ -91,15 +93,58 @@ uses, so the content carries over.
 Most brands and products are invented placeholders and carry a `demo: true`
 flag, which shows as an "Example brand" tag in the app. Castel Woodshop
 (added 24 September 2026) is the first real brand: its text, photos and logo
-come from the brand's own profile form.
+come from the brand's own profile form. Tierra Viva cosmetics & cleaners
+(added 2 October 2026) is the second: its text, products and places to buy
+come from Nadine's finished profile, and its links and photos from the
+brand's own form and folder. Deli Saludable (added 2 October 2026) is the
+third: its text, products, places, shipping and links come from its own form,
+which is in Spanish, so its English About is a translation draft.
 
-## Brand photos
+## Brand profile
 
-A brand can carry `photo` (a 3:2 cover shown on the result card and at the top
-of the profile), `photos` (a scroll strip on the profile, tap to open full
-screen) and `logo` (a square tile beside the name). All three are optional.
-A brand without them keeps the tinted tile and category icon. File names are
-plain, for example `castel-woodshop-cover.jpg`, because this build is flat.
+The profile follows the Sol de Tierra and Tierra Viva mockups Nadine drew
+(October 2026): a wide hero, a round logo beside the name, the town and the
+category, About, Product Examples, Products, Where to buy and round buttons to
+find the brand. The page ground is a warm white, `--ground` in `styles.css`.
+
+Where to buy is a heading followed by one row per point of sale and then a
+Shipping row, all in one list. Each row shows the shop name and, under it,
+the days or hours the brand gave (`pos.note`, for example Every Friday) or
+else the town. A row opens in place only when it has more to show: a street
+address (`pos.address`), or the town once the days have taken its place. A row
+with nothing behind it has no arrow, so no arrow is ever a dead button. The
+Shipping row uses the brand's own words (`shipping.note`) when it has them,
+and otherwise says Nationwide shipping available or lists the provinces.
+`shipping.type` and `shipping.provinces` still decide the search either way.
+
+A brand in more than one category (Tierra Viva is in Natural Skincare &
+Bodycare and in Home & Living) lists each category on its own line and shows
+up in the results for both.
+
+A brand can carry these optional fields (all described in `brands.js`):
+
+- `photo`, a small cover (square works, 600 pixels is plenty) shown on the
+  result card.
+- `hero`, a wide 3:1 photo for the top of the profile, 1500 x 500 pixels. Without
+  it the cover photo is cropped to the same band. `heroPos` chooses which part
+  stays in view.
+- `photos`, the Product Examples row, square, about 900 pixels. Tap one to open
+  it full screen. The first four show before the row scrolls.
+- `logo`, shown in a round frame. Square, with the mark kept inside the circle
+  (a wide wordmark needs empty space above and below it). Without one the
+  initials show in a tinted circle.
+
+A brand with none of them keeps the tinted band and category icon. File names
+are plain, for example `deli-saludable-hero.jpg`, because this build is flat.
+
+`base` is optional too. A brand that has not said where it is based (Deli
+Saludable today) shows no location line under its name.
+
+To add or replace photos for a brand that is already in `brands.js`: drop the
+new files next to `index.html` under new names, then point the `hero`, `photo`,
+`photos` and `logo` lines of its entry at them. Nothing else changes. The old
+files can stay in the repo, unused. Castel Woodshop was done this way on
+2 October 2026 (the new files carry `v2` in their names).
 
 ## For brands
 
@@ -110,6 +155,6 @@ footer and from the Mission page. Its button opens the brand profile form
 
 ## Legal pages
 
-`data/content.js` holds the Privacy Policy and Terms of Use in both languages.
+`content.js` holds the Privacy Policy and Terms of Use in both languages.
 They describe what this build actually does. They are a starting point and
 should be reviewed by a lawyer before the app is published.
