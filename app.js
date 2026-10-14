@@ -56,6 +56,7 @@ var STRINGS = {
     productsLabel: 'Products',
     examplesLabel: 'Product Examples',
     posLabel: 'Where to buy',
+    openMap: 'Open in Google Maps',
     shippingLabel: 'Shipping',
     shipNationwide: 'Nationwide shipping available',
     shipProvinces: 'Ships to: ',
@@ -131,6 +132,7 @@ var STRINGS = {
     productsLabel: 'Productos',
     examplesLabel: 'Ejemplos de productos',
     posLabel: 'Dónde comprar',
+    openMap: 'Abrir en Google Maps',
     shippingLabel: 'Envíos',
     shipNationwide: 'Envíos disponibles en todo Panamá',
     shipProvinces: 'Envía a: ',
@@ -505,7 +507,7 @@ function viewHome() {
   var s = t();
   var html =
     '<p class="page-sub" style="margin-top:2px">' + esc(s.tagline) + '</p>' +
-    '<div class="hero-photo"><img src="home-hero.jpg" alt=""></div>' +
+    '<div class="hero-photo"><img src="home-hero-wide.jpg" alt=""></div>' +
     '<div class="demo-note">' + esc(s.demoNote) + '</div>' +
     searchFormHTML({}) +
     '<div class="section-label">' + esc(s.browseTitle) + '</div>' +
@@ -728,9 +730,12 @@ function viewBrand(slug) {
   var rows = '';
   b.pos.forEach(function (p, i) {
     var sub = p.note ? nameOf(p.note) : townOf(p);
-    var detail = (p.address || p.note)
+    var mapsOk = /^https:\/\/(www\.)?google\.com\/maps\//.test(p.maps || '');
+    var detail = (p.address || p.note || mapsOk)
       ? (p.address ? '<span>' + esc(p.address) + '</span>' : '') +
-        '<span>' + esc(townOf(p) + ', ' + p.province) + '</span>'
+        '<span>' + esc(townOf(p) + ', ' + p.province) + '</span>' +
+        (mapsOk ? '<a class="map-link" href="' + esc(p.maps) + '" target="_blank" rel="noopener">' +
+                  esc(s.openMap) + '</a>' : '')
       : '';
     rows += rowHTML('buy' + i, ICONS.store, p.name, '<span>' + esc(sub) + '</span>', detail);
   });
@@ -748,18 +753,24 @@ function viewBrand(slug) {
 
   /* Find this brand: Instagram, WhatsApp, Website, only the ones it has. */
   var find = '';
-  if (b.links.instagram) {
+  /* A button shows only when its link holds something real: blank spaces or
+     a stub number never make a dead button. */
+  var lk = b.links || {};
+  var hasInstagram = String(lk.instagram || '').trim().length > 0;
+  var hasWhatsapp = String(lk.whatsapp || '').replace(/[^0-9]/g, '').length >= 7;
+  var hasWebsite = String(lk.website || '').trim().length > 0;
+  if (hasInstagram) {
     find += findHTML('https://instagram.com/' + b.links.instagram, ICONS.instagram, s.instagram,
                      s.instagram + ' @' + b.links.instagram);
   }
-  if (b.links.whatsapp) {
+  if (hasWhatsapp) {
     /* The chat opens with a short greeting already typed, so the brand can see
        the contact came through aquí. The person can edit or delete it. */
     find += findHTML('https://wa.me/' + b.links.whatsapp.replace(/[^0-9]/g, '') +
                      '?text=' + encodeURIComponent(s.waIntro(b.name)),
                      ICONS.whatsapp, s.whatsapp, s.whatsapp + ' ' + b.links.whatsapp);
   }
-  if (b.links.website) {
+  if (hasWebsite) {
     find += findHTML('https://' + b.links.website, ICONS.link, s.website, s.website + ' ' + b.links.website);
   }
 
@@ -861,7 +872,8 @@ function viewLegalDoc(which) {
 function footerHTML() {
   var s = t();
   return '<div class="mini-foot">' +
-    '<a href="#/brands">' + esc(s.forBrands) + '</a>' +
+    /* 14 Oct 2026: For Brands opens the website page directly. */
+    '<a href="' + esc(CONTENT.brands.formUrl) + '" target="_blank" rel="noopener">' + esc(s.forBrands) + '</a>' +
     '<a href="#/legal/privacy">' + esc(s.privacyName) + '</a>' +
     '<a href="#/legal/terms">' + esc(s.termsName) + '</a>' +
   '</div>';
@@ -907,8 +919,9 @@ function autocomplete(inputId, boxId, getItems, onPick, emptyMsg) {
     if (!items.length) {
       /* Nothing matched. For the Where field, say so and point to the next
          biggest city, so the person is never left with a blank list. */
-      if (emptyMsg) box.innerHTML = '<div class="ac"><div class="ac-empty">' + esc(emptyMsg()) + '</div></div>';
-      else close();
+      /* The message shows once, in the line under the field (setLocWarn),
+         so the dropdown just closes. */
+      close();
       return;
     }
     var html = '<div class="ac">';

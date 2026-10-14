@@ -569,6 +569,9 @@ window.BRANDS = [
       { name: "Boquete Market", note: { en: "Every Tuesday", es: "Todos los martes" },
         town: "Boquete", townEs: "Boquete", province: "Chiriquí", lat: 8.7800, lng: -82.4400 },
       { name: "The Red Barn",
+        /* maps: Google Maps place page for Red Barn near Coronado (found 14 Oct 2026).
+           Any shop can get one. The row then opens and shows an Open in Google Maps link. */
+        maps: "https://www.google.com/maps/place/Red+Barn/@8.5440563,-79.9126136,17z/data=!3m1!4b1!4m6!3m5!1s0x8facef0061e03d49:0x5bf280c8ad82e151!8m2!3d8.5440563!4d-79.9126136",
         town: "Coronado", townEs: "Coronado", province: "Panamá Oeste", lat: 8.5333, lng: -79.9500 }
     ],
     shipping: { type: "nationwide", provinces: [],
