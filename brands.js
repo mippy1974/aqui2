@@ -73,7 +73,7 @@ window.BRANDS = [
       { name: "Tienda Natural Penonomé", town: "Penonomé", townEs: "Penonomé", province: "Coclé", lat: 8.5207, lng: -80.346 }
     ],
     shipping: { type: "provinces", provinces: ["Panamá", "Panamá Oeste", "Coclé"] },
-    links: { website: "fermentosdelistmo.com", instagram: "fermentosdelistmo", whatsapp: "+507 6100 0101" },
+    links: { website: "", instagram: "", whatsapp: "" },
     published: true,
     demo: true
   },
@@ -91,7 +91,7 @@ window.BRANDS = [
       { name: "Feria de Las Tablas", town: "Las Tablas", townEs: "Las Tablas", province: "Los Santos", lat: 7.7667, lng: -80.2833 }
     ],
     shipping: { type: "provinces", provinces: ["Herrera", "Los Santos", "Coclé", "Veraguas"] },
-    links: { website: "", instagram: "fermentosazuero", whatsapp: "+507 6100 0102" },
+    links: { website: "", instagram: "", whatsapp: "" },
     published: true,
     demo: true
   },
@@ -110,7 +110,7 @@ window.BRANDS = [
       { name: "Orgánica David", town: "David", townEs: "David", province: "Chiriquí", lat: 8.4373, lng: -82.4293 }
     ],
     shipping: { type: "provinces", provinces: ["Chiriquí"] },
-    links: { website: "", instagram: "kimchivolcan", whatsapp: "+507 6100 0103" },
+    links: { website: "", instagram: "", whatsapp: "" },
     published: true,
     demo: true
   },
@@ -128,7 +128,7 @@ window.BRANDS = [
       { name: "Café Central David", town: "David", townEs: "David", province: "Chiriquí", lat: 8.4333, lng: -82.4333 }
     ],
     shipping: { type: "none", provinces: [] },
-    links: { website: "", instagram: "masamadreboquete", whatsapp: "+507 6100 0104" },
+    links: { website: "", instagram: "", whatsapp: "" },
     published: true,
     demo: true
   },
@@ -147,7 +147,7 @@ window.BRANDS = [
       { name: "Mercado Orgánico Casco", town: "Panama City", townEs: "Ciudad de Panamá", province: "Panamá", lat: 8.9864, lng: -79.5159 }
     ],
     shipping: { type: "nationwide", provinces: [] },
-    links: { website: "cacaoportobelo.com", instagram: "cacaoportobelo", whatsapp: "+507 6100 0105" },
+    links: { website: "", instagram: "", whatsapp: "" },
     published: true,
     demo: true
   },
@@ -166,7 +166,7 @@ window.BRANDS = [
       { name: "Súper Natural Chitré", town: "Chitré", townEs: "Chitré", province: "Herrera", lat: 7.9707, lng: -80.4293 }
     ],
     shipping: { type: "provinces", provinces: ["Los Santos", "Herrera", "Panamá"] },
-    links: { website: "", instagram: "mieldeazuero", whatsapp: "+507 6100 0106" },
+    links: { website: "", instagram: "", whatsapp: "" },
     published: true,
     demo: true
   },
@@ -185,7 +185,7 @@ window.BRANDS = [
       { name: "Mercado Orgánico Casco", town: "Panama City", townEs: "Ciudad de Panamá", province: "Panamá", lat: 8.9864, lng: -79.5159 }
     ],
     shipping: { type: "nationwide", provinces: [] },
-    links: { website: "altoquiel.com", instagram: "cafealtoquiel", whatsapp: "+507 6100 0107" },
+    links: { website: "", instagram: "", whatsapp: "" },
     published: true,
     demo: true
   },
@@ -205,7 +205,7 @@ window.BRANDS = [
       { name: "Mercado Orgánico Casco", town: "Panama City", townEs: "Ciudad de Panamá", province: "Panamá", lat: 8.9784, lng: -79.5239 }
     ],
     shipping: { type: "provinces", provinces: ["Panamá", "Panamá Oeste"] },
-    links: { website: "", instagram: "kombuchatropicalpa", whatsapp: "+507 6100 0108" },
+    links: { website: "", instagram: "", whatsapp: "" },
     published: true,
     demo: true
   },
@@ -224,7 +224,7 @@ window.BRANDS = [
       { name: "Orgánico Santiago", town: "Santiago", townEs: "Santiago", province: "Veraguas", lat: 8.104, lng: -80.9793 }
     ],
     shipping: { type: "nationwide", provinces: [] },
-    links: { website: "", instagram: "nuecesdelpacifico", whatsapp: "+507 6100 0109" },
+    links: { website: "", instagram: "", whatsapp: "" },
     published: true,
     demo: true
   },
@@ -242,7 +242,7 @@ window.BRANDS = [
       { name: "Tuesday Market Boquete", town: "Boquete", townEs: "Boquete", province: "Chiriquí", lat: 8.78, lng: -82.44 }
     ],
     shipping: { type: "provinces", provinces: ["Bocas del Toro", "Chiriquí"] },
-    links: { website: "", instagram: "salsaislena", whatsapp: "+507 6100 0110" },
+    links: { website: "", instagram: "", whatsapp: "" },
     published: true,
     demo: true
   },
@@ -260,7 +260,7 @@ window.BRANDS = [
       { name: "Orgánico Santiago", town: "Santiago", townEs: "Santiago", province: "Veraguas", lat: 8.1, lng: -80.9833 }
     ],
     shipping: { type: "provinces", provinces: ["Veraguas", "Herrera", "Coclé"] },
-    links: { website: "", instagram: "jardindesantafe", whatsapp: "+507 6100 0111" },
+    links: { website: "", instagram: "", whatsapp: "" },
     published: true,
     demo: true
   },
@@ -279,7 +279,7 @@ window.BRANDS = [
       { name: "Tuesday Market Boquete", town: "Boquete", townEs: "Boquete", province: "Chiriquí", lat: 8.784, lng: -82.436 }
     ],
     shipping: { type: "nationwide", provinces: [] },
-    links: { website: "hierbascerropunta.com", instagram: "hierbascerropunta", whatsapp: "+507 6100 0112" },
+    links: { website: "", instagram: "", whatsapp: "" },
     published: true,
     demo: true
   },
@@ -297,7 +297,7 @@ window.BRANDS = [
       { name: "Coronado Market", town: "Coronado", townEs: "Coronado", province: "Panamá Oeste", lat: 8.5333, lng: -79.95 }
     ],
     shipping: { type: "nationwide", provinces: [] },
-    links: { website: "boticaverde.com", instagram: "boticaverdepa", whatsapp: "+507 6100 0113" },
+    links: { website: "", instagram: "", whatsapp: "" },
     published: true,
     demo: true
   },
@@ -316,7 +316,7 @@ window.BRANDS = [
       { name: "Mercado Orgánico Casco", town: "Panama City", townEs: "Ciudad de Panamá", province: "Panamá", lat: 8.9864, lng: -79.5159 }
     ],
     shipping: { type: "nationwide", provinces: [] },
-    links: { website: "selvabotanica.com", instagram: "selvabotanica", whatsapp: "+507 6100 0114" },
+    links: { website: "", instagram: "", whatsapp: "" },
     published: true,
     demo: true
   },
@@ -335,7 +335,7 @@ window.BRANDS = [
       { name: "Orgánico Santiago", town: "Santiago", townEs: "Santiago", province: "Veraguas", lat: 8.104, lng: -80.9793 }
     ],
     shipping: { type: "nationwide", provinces: [] },
-    links: { website: "", instagram: "jaboneriaistmo", whatsapp: "+507 6100 0115" },
+    links: { website: "", instagram: "", whatsapp: "" },
     published: true,
     demo: true
   },
@@ -353,7 +353,7 @@ window.BRANDS = [
       { name: "Mercado Colón", town: "Colón", townEs: "Colón", province: "Colón", lat: 9.3592, lng: -79.9014 }
     ],
     shipping: { type: "provinces", provinces: ["Bocas del Toro", "Chiriquí", "Panamá"] },
-    links: { website: "cocoycera.com", instagram: "cocoycera", whatsapp: "+507 6100 0116" },
+    links: { website: "", instagram: "", whatsapp: "" },
     published: true,
     demo: true
   },
@@ -372,7 +372,7 @@ window.BRANDS = [
       { name: "Mercado de Volcán", town: "Volcán", townEs: "Volcán", province: "Chiriquí", lat: 8.7873, lng: -82.6293 }
     ],
     shipping: { type: "provinces", provinces: ["Chiriquí", "Bocas del Toro"] },
-    links: { website: "", instagram: "raiznaturalpa", whatsapp: "+507 6100 0117" },
+    links: { website: "", instagram: "", whatsapp: "" },
     published: true,
     demo: true
   },
@@ -390,7 +390,7 @@ window.BRANDS = [
       { name: "Feria La Chorrera", town: "La Chorrera", townEs: "La Chorrera", province: "Panamá Oeste", lat: 8.88, lng: -79.7833 }
     ],
     shipping: { type: "nationwide", provinces: [] },
-    links: { website: "lunaroja.com.pa", instagram: "lunarojapa", whatsapp: "+507 6100 0118" },
+    links: { website: "", instagram: "", whatsapp: "" },
     published: true,
     demo: true
   },
@@ -409,7 +409,7 @@ window.BRANDS = [
       { name: "Tienda Natural Penonomé", town: "Penonomé", townEs: "Penonomé", province: "Coclé", lat: 8.5207, lng: -80.346 }
     ],
     shipping: { type: "provinces", provinces: ["Veraguas", "Herrera", "Los Santos", "Coclé"] },
-    links: { website: "", instagram: "ciclopanama", whatsapp: "+507 6100 0119" },
+    links: { website: "", instagram: "", whatsapp: "" },
     published: true,
     demo: true
   },
@@ -428,7 +428,7 @@ window.BRANDS = [
       { name: "Mercado Orgánico Casco", town: "Panama City", townEs: "Ciudad de Panamá", province: "Panamá", lat: 8.9864, lng: -79.5159 }
     ],
     shipping: { type: "nationwide", provinces: [] },
-    links: { website: "velaycopal.com", instagram: "velaycopal", whatsapp: "+507 6100 0120" },
+    links: { website: "", instagram: "", whatsapp: "" },
     published: true,
     demo: true
   },
@@ -446,7 +446,7 @@ window.BRANDS = [
       { name: "Feria de Las Tablas", town: "Las Tablas", townEs: "Las Tablas", province: "Los Santos", lat: 7.7667, lng: -80.2833 }
     ],
     shipping: { type: "provinces", provinces: ["Los Santos", "Herrera", "Panamá"] },
-    links: { website: "", instagram: "casaambarpedasi", whatsapp: "+507 6100 0121" },
+    links: { website: "", instagram: "", whatsapp: "" },
     published: true,
     demo: true
   },
@@ -465,7 +465,7 @@ window.BRANDS = [
       { name: "San Carlos Feria", town: "San Carlos", townEs: "San Carlos", province: "Panamá Oeste", lat: 8.4873, lng: -80.046 }
     ],
     shipping: { type: "provinces", provinces: ["Panamá Oeste", "Panamá", "Coclé"] },
-    links: { website: "", instagram: "tallergorgona", whatsapp: "+507 6100 0122" },
+    links: { website: "", instagram: "", whatsapp: "" },
     published: true,
     demo: true
   },
@@ -484,7 +484,7 @@ window.BRANDS = [
       { name: "Feria de El Valle", town: "El Valle de Antón", townEs: "El Valle de Antón", province: "Coclé", lat: 8.604, lng: -80.1293 }
     ],
     shipping: { type: "nationwide", provinces: [] },
-    links: { website: "maderaybarro.com", instagram: "maderaybarro", whatsapp: "+507 6100 0123" },
+    links: { website: "", instagram: "", whatsapp: "" },
     published: true,
     demo: true
   },
@@ -503,7 +503,7 @@ window.BRANDS = [
       { name: "Mercado Orgánico Casco", town: "Panama City", townEs: "Ciudad de Panamá", province: "Panamá", lat: 8.9864, lng: -79.5159 }
     ],
     shipping: { type: "nationwide", provinces: [] },
-    links: { website: "pequenoistmo.com", instagram: "pequenoistmo", whatsapp: "+507 6100 0124" },
+    links: { website: "", instagram: "", whatsapp: "" },
     published: true,
     demo: true
   },

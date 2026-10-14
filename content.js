@@ -59,11 +59,14 @@ window.CONTENT = {
     }
   },
 
-  /* For brands page (added 24 Sep 2026). formUrl opens Nadine's Jotform
-     profile form in the phone's browser. One link serves both languages until
+  /* For brands page (added 24 Sep 2026). formUrl opens the For brands page on
+     Nadine's website (14 Oct 2026; it was the Jotform profile form) in the phone's browser. One link serves both languages until
      a Spanish form link is added under formUrlEs. */
+  /* Mission statement: opened from the Supporting local card (14 Oct 2026). */
+  missionUrl: 'https://www.discoveraqui.com/mission/',
+
   brands: {
-    formUrl: 'https://form.jotform.com/262514303259049',
+    formUrl: 'https://www.discoveraqui.com/for-brands/',
     formUrlEs: '',
     en: {
       title: 'For brands',

@@ -18,10 +18,12 @@
  * ------------------------------------------------------------------ */
 var STRINGS = {
   en: {
-    tagline: 'Natural and locally made, found in one place.',
+    tagline: 'Discover what Panama makes',
     whatLabel: 'What are you looking for?',
     whatPh: 'Search a product, for example kimchi',
     whereLabel: 'Where',
+    locNotFound: 'Place not found. Try a nearby town.',
+    locPick: 'Please pick a town from the list.',
     wherePh: 'Choose a town in Panama',
     useLocation: 'Use my location',
     locating: 'Finding your location…',
@@ -77,8 +79,8 @@ var STRINGS = {
     nearSub: 'Pick a place and see everything available there. No product needed.',
     demoNote: 'Demo version. Brands marked "Example brand" are invented placeholders that show how the app works. Brands without that mark are real.',
     exampleTag: 'Example brand',
-    forBrands: 'For brands',
-    brandsFormBtn: 'Open the brand form',
+    forBrands: 'For Brands',
+    brandsFormBtn: 'Introduce your brand',
     brandsFormNote: 'Opens outside aquí, in your browser.',
     brandsTeaserTitle: 'Do you make something in Panama?',
     brandsTeaserSub: 'See how a brand joins aquí',
@@ -91,10 +93,12 @@ var STRINGS = {
     anywhere: 'Anywhere in Panama'
   },
   es: {
-    tagline: 'Natural y hecho aquí, todo en un solo lugar.',
+    tagline: 'Descubre lo que hace Panamá',
     whatLabel: '¿Qué estás buscando?',
     whatPh: 'Busca un producto, por ejemplo kimchi',
     whereLabel: 'Dónde',
+    locNotFound: 'Lugar no encontrado. Prueba un pueblo cercano.',
+    locPick: 'Elige un pueblo de la lista.',
     wherePh: 'Elige un lugar en Panamá',
     useLocation: 'Usar mi ubicación',
     locating: 'Buscando tu ubicación…',
@@ -151,7 +155,7 @@ var STRINGS = {
     demoNote: 'Versión demo. Las marcas con la etiqueta "Marca de ejemplo" son inventadas, para mostrar cómo funciona la app. Las marcas sin esa etiqueta son reales.',
     exampleTag: 'Marca de ejemplo',
     forBrands: 'Para marcas',
-    brandsFormBtn: 'Abrir el formulario para marcas',
+    brandsFormBtn: 'Presenta tu marca',
     brandsFormNote: 'Se abre fuera de aquí, en tu navegador.',
     brandsTeaserTitle: '¿Haces algo en Panamá?',
     brandsTeaserSub: 'Mira cómo una marca entra en aquí',
@@ -179,7 +183,9 @@ var state = {
   placeText: '',
   radius: 25,
   shipping: false,
-  geoMsg: ''
+  geoMsg: '',
+  locWarn: '',
+  formHash: '#/'
 };
 
 function store(key, val) {
@@ -318,9 +324,14 @@ function tintFor(slug) {
   for (var i = 0; i < slug.length; i++) n = (n * 31 + slug.charCodeAt(i)) % 997;
   return TINTS[n % TINTS.length];
 }
-/* Result card thumbnail and profile hero. A brand with a photo shows it; a
-   brand without one keeps the tinted tile and category icon. */
+/* Result card thumbnail. A brand with a logo shows it; otherwise its photo;
+   otherwise the tinted tile and category icon. */
 function brandThumbHTML(b) {
+  /* 14 Oct 2026: the logo comes first on result cards (Nadine's request). A
+     brand with no logo yet keeps its photo, then the tinted tile. */
+  if (b.logo) {
+    return '<div class="thumb has-logo"><img src="' + esc(b.logo) + '" alt=""></div>';
+  }
   var src = b.photo || b.hero;
   if (src) {
     return '<div class="thumb has-photo"><img src="' + esc(src) + '" alt=""></div>';
@@ -466,7 +477,7 @@ function searchFormHTML(opts) {
       '<button type="button" class="geo-btn" id="geoBtn">' +
         '<img src="location.png" alt="">' + esc(s.useLocation) +
       '</button>' +
-      '<p class="geo-msg" id="geoMsg">' + esc(state.geoMsg || s.locNote) + '</p>' +
+      '<p class="geo-msg' + (state.locWarn ? ' warn' : '') + '" id="geoMsg">' + esc(state.locWarn === 'pick' ? s.locPick : (state.locWarn ? s.locNotFound : (state.geoMsg || s.locNote))) + '</p>' +
     '</div>';
 
   html += '<div class="field"><label>' + esc(s.radiusLabel) + '</label><div class="chips" id="radiusChips">';
@@ -494,7 +505,7 @@ function viewHome() {
   var s = t();
   var html =
     '<p class="page-sub" style="margin-top:2px">' + esc(s.tagline) + '</p>' +
-    '<div class="hero-photo"><img src="hero.jpg" alt=""></div>' +
+    '<div class="hero-photo"><img src="home-hero.jpg" alt=""></div>' +
     '<div class="demo-note">' + esc(s.demoNote) + '</div>' +
     searchFormHTML({}) +
     '<div class="section-label">' + esc(s.browseTitle) + '</div>' +
@@ -504,10 +515,12 @@ function viewHome() {
   html += '</div>' +
     '<button type="button" class="btn btn-quiet btn-chev" style="margin-top:13px" data-go="#/browse">' +
       esc(s.browseAll) + chevronHTML('btn-chev-icon') + '</button>' +
-    '<div class="teaser" data-go="#/mission">' +
+    /* 14 Oct 2026: the mission lives on Nadine's website. This card is the only
+       way to it from the app, and it opens outside aquí. */
+    '<a class="teaser" href="' + esc(CONTENT.missionUrl) + '" target="_blank" rel="noopener">' +
       '<img src="mission.png" alt="">' +
       '<span><b>' + esc(s.missionTeaser) + '</b><span>' + esc(s.missionLink) + '</span></span>' +
-    '</div>' +
+    '</a>' +
     footerHTML();
 
   render(html);
@@ -848,7 +861,6 @@ function viewLegalDoc(which) {
 function footerHTML() {
   var s = t();
   return '<div class="mini-foot">' +
-    '<a href="#/mission">' + esc(s.tabMission) + '</a>' +
     '<a href="#/brands">' + esc(s.forBrands) + '</a>' +
     '<a href="#/legal/privacy">' + esc(s.privacyName) + '</a>' +
     '<a href="#/legal/terms">' + esc(s.termsName) + '</a>' +
@@ -882,7 +894,7 @@ function wireCatButtons() {
   });
 }
 
-function autocomplete(inputId, boxId, getItems, onPick) {
+function autocomplete(inputId, boxId, getItems, onPick, emptyMsg) {
   var input = el(inputId), box = el(boxId);
   if (!input || !box) return;
 
@@ -892,7 +904,13 @@ function autocomplete(inputId, boxId, getItems, onPick) {
     var q = norm(input.value.trim());
     if (q.length < 1) { close(); return; }
     var items = getItems(q).slice(0, 7);
-    if (!items.length) { close(); return; }
+    if (!items.length) {
+      /* Nothing matched. For the Where field, say so and point to the next
+         biggest city, so the person is never left with a blank list. */
+      if (emptyMsg) box.innerHTML = '<div class="ac"><div class="ac-empty">' + esc(emptyMsg()) + '</div></div>';
+      else close();
+      return;
+    }
     var html = '<div class="ac">';
     items.forEach(function (it, i) {
       html += '<div data-i="' + i + '">' + esc(it.label) +
@@ -900,7 +918,7 @@ function autocomplete(inputId, boxId, getItems, onPick) {
     });
     html += '</div>';
     box.innerHTML = html;
-    each('#' + boxId + ' .ac div', function (n) {
+    each('#' + boxId + ' .ac div[data-i]', function (n) {
       n.onclick = function () {
         var it = items[parseInt(n.getAttribute('data-i'), 10)];
         input.value = it.label;
@@ -913,9 +931,44 @@ function autocomplete(inputId, boxId, getItems, onPick) {
   input.addEventListener('blur', function () { setTimeout(close, 180); });
 }
 
+/* Places that match what was typed, best match first. q must already be
+   passed through norm(). Used by the suggestions and by the not found check. */
+function findPlaces(q) {
+    var out = [];
+    PLACES.forEach(function (p) {
+      var name = norm(placeName(p)), rank = -1, note = p.province;
+      if (name.indexOf(q) === 0) rank = 0;
+      else if (name.indexOf(' ' + q) > -1) rank = 1;
+      else if (name.indexOf(q) > -1) rank = 2;
+      else {
+        /* Other names for the place, such as a Panama City neighborhood. */
+        (p.alias || []).forEach(function (a) {
+          if (rank < 0 && norm(a).indexOf(q) > -1) { rank = 3; note = a + ', ' + p.province; }
+        });
+        if (rank < 0 && norm(p.province).indexOf(q) > -1) rank = 4;
+      }
+      if (rank > -1) out.push({ id: p.id, label: placeName(p), note: note, rank: rank, n: out.length });
+    });
+    /* Best match first: name starts with what was typed, then a word that
+       starts with it, then anywhere in the name, then other names, then the
+       province. Equal ranks keep the list order. */
+    out.sort(function (a, b) { return a.rank - b.rank || a.n - b.n; });
+    return out;
+}
+
+function setLocWarn(kind) {
+  var s = t(), gm = el('geoMsg');
+  state.locWarn = kind || '';
+  if (gm) {
+    gm.classList.toggle('warn', !!kind);
+    gm.textContent = kind === 'pick' ? s.locPick : (kind ? s.locNotFound : (state.geoMsg || s.locNote));
+  }
+}
+
 function wireSearchForm(opts) {
   opts = opts || {};
   var s = t();
+  state.formHash = location.hash || '#/';
 
   if (!opts.hideProduct) {
     autocomplete('q', 'acProduct', function (q) {
@@ -949,25 +1002,25 @@ function wireSearchForm(opts) {
     });
   }
 
-  autocomplete('loc', 'acPlace', function (q) {
-    var out = [];
-    PLACES.forEach(function (p) {
-      if (norm(placeName(p)).indexOf(q) > -1 || norm(p.province).indexOf(q) > -1) {
-        out.push({ id: p.id, label: placeName(p), note: p.province });
-      }
-    });
-    return out;
-  }, function (it) {
+  autocomplete('loc', 'acPlace', findPlaces, function (it) {
     state.placeId = it.id;
     state.placeText = it.label;
     state.geoMsg = '';
+    setLocWarn('');
     store('place', it.id);
-  });
+  }, function () { return t().locNotFound; });
 
   var li = el('loc');
+  if (li && state.locWarn) { try { li.focus({ preventScroll: false }); } catch (e) { li.focus(); } }
   if (li) li.addEventListener('input', function () {
     state.placeText = li.value;
-    if (!li.value.trim()) { state.placeId = null; try { localStorage.removeItem('aqui.place'); } catch (e) {} }
+    /* Typing again un-picks the place, so only a place chosen from the list counts. */
+    state.placeId = null;
+    /* Say so right away when nothing in the list matches what was typed. */
+    state.geoMsg = '';
+    var typedNow = norm(li.value.trim());
+    setLocWarn(typedNow && !findPlaces(typedNow).length ? 'notFound' : '');
+    if (!li.value.trim()) { try { localStorage.removeItem('aqui.place'); } catch (e) {} }
   });
 
   /* Use my location.
@@ -985,6 +1038,7 @@ function wireSearchForm(opts) {
         var d = distance(here, p);
         if (!best || d < best.d) best = { p: p, d: d };
       });
+      state.locWarn = '';
       state.placeId = best.p.id;
       state.placeText = placeName(best.p);
       store('place', best.p.id);
@@ -1047,11 +1101,29 @@ function paintLang() {
   });
 }
 
+/* Tab bar icons (14 Oct 2026, to match Nadine's mock up): white line icons that
+   take their colour from the tab. The home icon fills in when it is the open tab. */
+var TAB_SVG = {
+  home: function (on) {
+    return '<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M3.5 11.2 12 4l8.5 7.2V19a1.5 1.5 0 0 1-1.5 1.5h-4v-5.7h-6v5.7H5A1.5 1.5 0 0 1 3.5 19z" ' +
+           (on ? 'fill="currentColor" ' : 'fill="none" ') + 'stroke="currentColor" stroke-width="1.7" stroke-linejoin="round"/></svg>';
+  },
+  browse: function () {
+    return '<svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="10.5" cy="10.5" r="6.3" fill="none" stroke="currentColor" stroke-width="1.7"/>' +
+           '<path d="m15.4 15.4 5 5" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round"/></svg>';
+  },
+  near: function () {
+    return '<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 21.2s-6.8-6.2-6.8-11.2a6.8 6.8 0 0 1 13.6 0c0 5-6.8 11.2-6.8 11.2z" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linejoin="round"/>' +
+           '<circle cx="12" cy="10" r="2.4" fill="none" stroke="currentColor" stroke-width="1.7"/></svg>';
+  }
+};
 var TABS = [
-  { hash: '#/',        icon: 'home.png',     key: 'tabHome' },
-  { hash: '#/browse',  icon: 'browse.png',   key: 'tabBrowse' },
-  { hash: '#/nearby',  icon: 'location.png', key: 'tabNear' },
-  { hash: '#/mission', icon: 'mission.png',  key: 'tabMission' }
+  { hash: '#/',        svg: 'home',   key: 'tabHome' },
+  { hash: '#/browse',  svg: 'browse', key: 'tabBrowse' },
+  { hash: '#/nearby',  svg: 'near',   key: 'tabNear' }
+  /* The Mission tab was removed on 14 Oct 2026: the mission now lives on the
+     website, reached from the Supporting local card on the home screen. The
+     in-app Mission page (viewMission, route #/mission) is kept but not linked. */
 ];
 
 function paintTabs() {
@@ -1061,7 +1133,7 @@ function paintTabs() {
     var on = (tab.hash === '#/' && (cur === '#/' || cur === '')) ||
              (tab.hash !== '#/' && cur.indexOf(tab.hash) === 0);
     html += '<button type="button" class="tab' + (on ? ' on' : '') + '" data-go="' + tab.hash + '">' +
-              '<img src="' + tab.icon + '" alt="">' + esc(s[tab.key]) + '</button>';
+              TAB_SVG[tab.svg](on) + '<span>' + esc(s[tab.key]) + '</span></button>';
   });
   el('tabbar').innerHTML = html;
   each('#tabbar [data-go]', function (n) {
@@ -1078,7 +1150,25 @@ function route() {
   paintTabs();
 
   if (h.indexOf('#/brand/') === 0) return viewBrand(h.slice('#/brand/'.length));
-  if (h === '#/results') return viewResults();
+  if (h === '#/results') {
+    /* A place was typed but not chosen from the list. If it matches a listed
+       name exactly, use it. If not, go back to the form and ask for a nearby
+       town, so a search never quietly turns into "anywhere in Panama". */
+    if (!state.placeId && String(state.placeText || '').trim()) {
+      var typed = norm(state.placeText.trim());
+      for (var i = 0; i < PLACES.length; i++) {
+        if (norm(PLACES[i].en) === typed || norm(PLACES[i].es) === typed) {
+          state.placeId = PLACES[i].id; state.placeText = placeName(PLACES[i]); break;
+        }
+      }
+      if (!state.placeId) {
+        state.locWarn = findPlaces(typed).length ? 'pick' : 'notFound';
+        location.replace(state.formHash || '#/');
+        return;
+      }
+    }
+    return viewResults();
+  }
   if (h === '#/browse') return viewBrowse();
   if (h === '#/nearby') return viewNearby();
   if (h === '#/mission') return viewMission();

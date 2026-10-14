@@ -20,9 +20,9 @@ window.CATEGORIES = [
   { id: 'skincare',  en: 'Natural Skincare & Bodycare',  es: 'Cuidado natural de piel y cuerpo', icon: 'cat-skincare.png',  photo: 'skincare.jpg' },
   { id: 'herbs',     en: 'Herbs, Tea & Natural Remedies', es: 'Hierbas, té y remedios naturales', icon: 'cat-herbs.png',     photo: 'herbs.jpg' },
   { id: 'food',      en: 'Healthy Food & Drinks',         es: 'Alimentos y bebidas saludables',   icon: 'cat-food.png',      photo: 'food.jpg' },
-  { id: 'menstrual', en: 'Menstrual & Intimate Care',     es: 'Cuidado menstrual e íntimo',       icon: 'cat-menstrual.png', photo: 'menstrual.jpg' },
-  { id: 'ritual',    en: 'Home, Ritual & Wellbeing',      es: 'Hogar, ritual y bienestar',        icon: 'cat-ritual.png',    photo: 'ritual.jpg' },
   { id: 'living',    en: 'Home & Living',                 es: 'Hogar y decoración',               icon: 'cat-living.png',    photo: 'living.jpg' },
+  { id: 'ritual',    en: 'Ritual & Wellbeing',           es: 'Ritual y bienestar',                icon: 'cat-ritual.png',    photo: 'ritual.jpg' },
+  { id: 'menstrual', en: 'Menstrual & Intimate Care',     es: 'Cuidado menstrual e íntimo',       icon: 'cat-menstrual.png', photo: 'menstrual.jpg' },
   { id: 'kids',      en: 'Kids & Family',                 es: 'Niños y familia',                  icon: 'cat-kids.png',      photo: 'kids.jpg' },
   /* Sport & Outdoor has no line icon yet, so it points at the browse icon as a
      safe fallback. Drop a cat-sport.png in and change the icon line when one
