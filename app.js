@@ -656,6 +656,27 @@ function rowHTML(key, icon, label, lines, detail) {
            '<div class="row-detail" id="row-' + key + '" hidden>' + detail + '</div>' +
          '</div>';
 }
+/* Clean a brand's links. Returns only values that are real and of the right
+   kind: an Instagram handle, a WhatsApp number (digits), a website address.
+   Anything else comes back empty and its button is not drawn. */
+function cleanLinks(raw) {
+  var lk = raw || {};
+  var ig = String(lk.instagram || '').trim()
+    .replace(/^https?:\/\/(www\.)?instagram\.com\//i, '').replace(/^@/, '').replace(/[\/?#].*$/, '');
+  if (!/^[A-Za-z0-9._]{1,30}$/.test(ig)) ig = '';
+
+  var waRaw = String(lk.whatsapp || '').trim();
+  var wa = /wa\.me\/c\//i.test(waRaw) ? '' : waRaw.replace(/[^0-9]/g, '');
+  if (wa.length < 7 || wa.length > 15) wa = '';
+
+  var web = String(lk.website || '').trim().replace(/^https?:\/\//i, '').replace(/\/+$/, '');
+  var host = web.split(/[\/?#]/)[0].toLowerCase();
+  var wrongKind = /(^|\.)(wa\.me|whatsapp\.com|instagram\.com|instagr\.am)$/.test(host);
+  if (!/^[a-z0-9-]+(\.[a-z0-9-]+)+$/.test(host) || wrongKind) web = '';
+
+  return { instagram: ig, whatsapp: wa, website: web };
+}
+
 /* One round "Find this brand" button. All three open outside the app. */
 function findHTML(href, icon, label, aria) {
   return '<a href="' + esc(href) + '" target="_blank" rel="noopener" aria-label="' +
@@ -751,27 +772,26 @@ function viewBrand(slug) {
     ? '<div class="sec"><h2>' + esc(s.posLabel) + '</h2><div class="rows">' + rows + '</div></div>'
     : '';
 
-  /* Find this brand: Instagram, WhatsApp, Website, only the ones it has. */
+  /* Find this brand: Instagram, WhatsApp, Website. A button shows only for a
+     link the brand really has, and each button opens only its own kind of
+     link. cleanLinks() drops anything blank, malformed or of the wrong kind
+     (a WhatsApp catalog or an Instagram page in the website field), so a
+     profile never shows an icon that points somewhere else. */
   var find = '';
-  /* A button shows only when its link holds something real: blank spaces or
-     a stub number never make a dead button. */
-  var lk = b.links || {};
-  var hasInstagram = String(lk.instagram || '').trim().length > 0;
-  var hasWhatsapp = String(lk.whatsapp || '').replace(/[^0-9]/g, '').length >= 7;
-  var hasWebsite = String(lk.website || '').trim().length > 0;
-  if (hasInstagram) {
-    find += findHTML('https://instagram.com/' + b.links.instagram, ICONS.instagram, s.instagram,
-                     s.instagram + ' @' + b.links.instagram);
+  var lk = cleanLinks(b.links);
+  if (lk.instagram) {
+    find += findHTML('https://instagram.com/' + lk.instagram, ICONS.instagram, s.instagram,
+                     s.instagram + ' @' + lk.instagram);
   }
-  if (hasWhatsapp) {
+  if (lk.whatsapp) {
     /* The chat opens with a short greeting already typed, so the brand can see
        the contact came through aquí. The person can edit or delete it. */
-    find += findHTML('https://wa.me/' + b.links.whatsapp.replace(/[^0-9]/g, '') +
+    find += findHTML('https://wa.me/' + lk.whatsapp +
                      '?text=' + encodeURIComponent(s.waIntro(b.name)),
-                     ICONS.whatsapp, s.whatsapp, s.whatsapp + ' ' + b.links.whatsapp);
+                     ICONS.whatsapp, s.whatsapp, s.whatsapp + ' +' + lk.whatsapp);
   }
-  if (hasWebsite) {
-    find += findHTML('https://' + b.links.website, ICONS.link, s.website, s.website + ' ' + b.links.website);
+  if (lk.website) {
+    find += findHTML('https://' + lk.website, ICONS.link, s.website, s.website + ' ' + lk.website);
   }
 
   render(

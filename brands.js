@@ -53,9 +53,16 @@
    text and photos come from the brand's own profile form. Tierra Viva (2 Oct
    2026) is the second and Deli Saludable (2 Oct 2026) the third.
 
-   Where a brand's "any other link" is a WhatsApp catalog link (wa.me/c/...),
-   it sits in links.website, because the profile has no separate catalog
-   button. Write links.website without https://, as the others are. */
+   LINKS RULE (14 Oct 2026, for every brand profile, always): a button under
+   "Find this brand" shows only for a link the brand really has, and opens
+   only its own kind of link.
+     instagram  the handle, with or without @, or the instagram.com address
+     whatsapp   the number, for example "+507 6050 5505"
+     website    the brand's own site, for example "www.example.com"
+   Leave a link as "" when the brand does not have it. A WhatsApp catalog
+   (wa.me/c/...) is not a website, so it does not go in website. The app also
+   ignores anything blank, malformed or of the wrong kind, so no icon ever
+   points somewhere else. */
 
 window.BRANDS = [
   {
