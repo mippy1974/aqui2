@@ -579,7 +579,9 @@ window.BRANDS = [
                         es: "A todo Panamá con Uno Express y Fletes Chavales, o por courier a Bocas del Toro" } },
     /* From the brand's form: Instagram @tierra_viva.volcan, WhatsApp (507) 689 88046, and a
        WhatsApp catalog link that sits in website. */
-    links: { website: "wa.me/c/50768988046", instagram: "tierra_viva.volcan", whatsapp: "+507 6898 8046" },
+    /* 14 Oct 2026: no website. The wa.me/c/50768988046 catalog link is a WhatsApp
+       catalog, not a website, so it is kept here and not shown as a Website button. */
+    links: { website: "", instagram: "tierra_viva.volcan", whatsapp: "+507 6898 8046" },
     photo: "tierra-viva-cover.jpg",
     hero: "tierra-viva-hero.jpg",
     photos: ["tierra-viva-1.jpg", "tierra-viva-2.jpg", "tierra-viva-3.jpg", "tierra-viva-4.jpg",
@@ -617,7 +619,9 @@ window.BRANDS = [
                 note: { en: "Panama City metro area", es: "Panamá (área metropolitana)" } },
     /* From the brand's form: Instagram delisaludable.pa, WhatsApp (+507) 666 13469, and a
        WhatsApp catalog link that sits in website. */
-    links: { website: "wa.me/c/50766613469", instagram: "delisaludable.pa", whatsapp: "+507 6661 3469" },
+    /* 14 Oct 2026: no website. The wa.me/c/50766613469 catalog link is a WhatsApp
+       catalog, not a website, so it is kept here and not shown as a Website button. */
+    links: { website: "", instagram: "delisaludable.pa", whatsapp: "+507 6661 3469" },
     photo: "deli-saludable-cover.jpg",
     hero: "deli-saludable-hero.jpg",
     photos: ["deli-saludable-1.jpg", "deli-saludable-2.jpg", "deli-saludable-3.jpg", "deli-saludable-4.jpg",
